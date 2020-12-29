@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DVD Library</title>
+        <!-- Bootstrap core CSS -->
+         <meta charset="utf-8">
+         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- <link href="css/bootstrap.css" rel="stylesheet"> -->
+
+      </head>
+      <body>
+
+      <h1>
+        <p>
+          Click the button to load a dvd with the id entered
+        </p>
+
+        <p>
+          <input type = "text" id = "txtDvdId"/>
+        </p>
+
+        <p>
+
+        </p>
+
+        <p>
+
+          <button onclick="loadDvd()">Click Me</button>
+        </p>
+
+        <p id = "dvdDetails">
+        </p>
+
+      </h1>
+
+
+
+        <!-- #5: Placed at the end of the document so the pages load faster -->
+        <script src="js/jquery-2.2.4.min.js"></script>
+        <!-- <script src="js/bootstrap.js"></script> -->
+        <!-- <script src="js/home.js"></script> -->
+        <script>
+          function loadDvd() {
+            var dvdId = $('#txtDvdId').val();
+
+            $.getJSON('http://localhost:52639/dvds/get/' + dvdId, function(data){
+               var p = $('#dvdDetails');
+               p.text(data.Title);
+            });
+          }
+        </script>
+    </body>
+</html>
