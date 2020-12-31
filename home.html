@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DVD Library</title>
+        <!-- Bootstrap core CSS -->
+         <meta charset="utf-8">
+         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="css/bootstrap.css" rel="stylesheet">
+
+      </head>
+      <body>
+
+      <!-- BEGIN NAVIGATION BAR -->
+      <nav class="navbar navbar-default container-fluid" id = "navbarDiv" >
+        <div >
+              <div class = "col-md-6">
+                <button  "border: 5px solid red" type = "button" id = "nav-create-dvd-button" class = "btn btn-primary"> Create DVD </button>
+              </div>
+
+            <form class = "navbar-form">
+
+            <div class = "col-md-1" >
+              <button type = "button" id = "search-button" class = "btn btn-primary"> Search </button>
+            </div>
+
+              <div class="col-md-2 dropdown form-group">
+
+                <!--
+                <button class="btn btn-primary dropdown-toggle" id = "search-category-dropdown" type="button"
+                data-toggle="dropdown">Search Category <span class="caret"></span></button>
+
+                <ul class="dropdown-menu">
+                  <li><a href="#">Title</a></li>
+                  <li><a href="#"> Release Date</a></li>
+                  <li><a href="#"> Director</a></li>
+                  <li><a href="#"> Rating </a></li>
+                </ul>
+
+              -->
+                <select  class="btn btn-primary dropdown" id = "search-category-dropdown" name = "search-category-dropdown" required>
+                  <option selected hidden >Search Category</option>
+                  <option value = "Title"> Title </option>
+                  <option value = "Release Date"> Release date </option>
+                  <option value = "Director"> Director </option>
+                  <option value = "Rating"> Rating </option>
+                </select>
+            </div>
+
+            <div class = "col-md-3 form-group ">
+                <input type="text" class = "form-control" id = "search-term" name = "search-term" placeholder="Search Term" required/>
+              </div>
+          </form>
+        </div>
+      </nav>
+      <!-- END NAVIGATION BAR -->
+
+
+
+      <!--**BEGIN ERROR MESSAGES LIST**-->
+      <ul class = "list-group"  id="errorMessages"> </ul>
+      <!--**END ERROR MESSAGES LIST** -->
+
+
+      <!--**BEGIN DISPLAY DVDS TABLE**-->
+      <div class ="container-fluid"> <!--container for all elements -->
+        <div id = "DVDdisplaytableDiv">
+
+          <table id = "DVDdisplaytable" class="table table-hover table-bordered">
+            <!-- <thead> -->
+            <tr style = "text-align: left;">
+              <th class = "col-md-3"> Title</th>
+              <th class = "col-md-2"> Release Date</th>
+              <th class = "col-md-3"> Director </th>
+              <th class = "col-md-2"> Rating</th>
+              <th class = "col-md-2"> </th>
+            </tr>
+          <!-- </thead> -->
+            <tbody id = "DVDdisplaycontentRows"></tbody>
+            <!-- will append rows here -->
+          </table>
+        </div>
+
+      <!--**END DISPLAY DVDS TABLE**-->
+
+      <!--**BEGIN CREATE DVD FORM** -->
+
+        <form class = "form-horizontal" role = "form" id = 'add-form'>
+          <h2> CREATE DVD </h2>
+          <hr/>
+
+          <ul class = "list-group"  id="create-dvd-error-messages"> </ul>
+          <div class = "form-group">
+            <label style = "text-align: left;"for ="add-title" class="col-md-1 control-label">Title:</label>
+            <div class="col-md-11">
+              <input style = "width: 25%;" type="text" class="form-control" id="add-title" placeholder="Title" required/>
+            </div>
+          </div>
+
+          <div class = "form-group">
+            <label style = "text-align: left" for ="add-release-year" class="col-md-1 control-label">Release Year:</label>
+            <div class="col-md-11">
+              <input style = "width: 25%;" type="text" class="form-control" id="add-release-year" placeholder="Year" required/>
+            </div>
+          </div>
+
+          <div class = "form-group">
+            <label style ="text-align:left;" for ="add-director" class="col-md-1 control-label">Director:</label>
+            <div class="col-md-11">
+              <input style = "width:25%;" type="text" class="form-control" id="add-director" placeholder="Director" required/>
+            </div>
+          </div>
+
+          <div class = form-group>
+            <label  style = "text-align: left;" for = "add-rating" class ="control-label col-md-1">Rating:</label>
+            <div class ="col-md-11">
+              <select  id = "add-rating" name = "add-rating">
+                <option value = "G"> G </option>
+                <option value = "PG"> PG </option>
+                <option value = "PG-13"> PG-13 </option>
+                <option value = "R"> R </option>
+              </select>
+            </div>
+          </div>
+
+
+          <div class = "form-group">
+            <label style = "text-align: left;" for ="add-notes" class="col-md-1 control-label">Notes:</label>
+            <div class="col-md-11">
+              <textarea style = "width:25%;" rows = "5" type="text" class="form-control" id="add-notes" placeholder="Notes"> </textarea>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class = "col-md-4">
+              <button type="button" id = "cancel-add-button" class="btn btn-primary"> Cancel </button>
+              <button type="button" id = "add-button" class="btn btn-primary"> Create DVD </button>
+            </div>
+          </div>
+        </form>
+      <!--**END CREATE DVD FORM**-->
+
+      <!--**BEGIN EDIT DVD FORM **-->
+
+        <div>
+          <form class = "form-horizontal" role = "form" id = 'edit-form'>
+            <h2> EDIT DVD </h2>
+            <hr/>
+              <ul class = "list-group"  id="edit-dvd-error-messages"> </ul>
+            <div class = "form-group">
+              <label style = "text-align:left;"for ="edit-title" class="col-md-1 control-label">Title:</label>
+              <div class="col-md-11">
+                <input style = "width: 25%;" type="text" class="form-control" id="edit-title" placeholder="Title" required/>
+              </div>
+            </div>
+
+            <div class = "form-group">
+              <label style = "text-align: left;" for ="edit-release-year" class="col-md-1 control-label">Release Year:</label>
+              <div class="col-md-11">
+                <input style = "width: 25%;" type="text" class="form-control" id="edit-release-year" placeholder="Year" required/>
+              </div>
+            </div>
+
+            <div class = "form-group">
+              <label style = "text-align:left;" for ="edit-director" class="col-md-1 control-label">Director:</label>
+              <div class="col-md-11">
+                <input style = "width: 25%" type="text" class="form-control" id="edit-director" placeholder="Director" required/>
+              </div>
+            </div>
+
+            <div class = form-group>
+              <label  style = "text-align: left;" for = "edit-rating" class ="control-label col-md-1">Rating:</label>
+              <div class ="col-md-11">
+                <select  id = "edit-rating" name = "edit-rating">
+                  <option value = "G"> G </option>
+                  <option value = "PG"> PG </option>
+                  <option value = "PG-13"> PG-13 </option>
+                  <option value = "R"> R </option>
+                </select>
+              </div>
+            </div>
+
+            <div class = "form-group">
+              <label style = "text-align:left;"  for ="edit-notes" class="col-md-1 control-label">Notes:</label>
+              <div class="col-md-11">
+                <textarea style = "width:25%;" rows = "5" type="text" class="form-control" id="edit-notes" placeholder="Notes"> </textarea>
+              </div>
+            </div>
+
+            <div class="form-group col-md-2">
+              <button type="button" id = "save-changes-button" class="btn btn-primary"> Save Changes </button>
+            </div>
+
+          </form>
+        </div>
+        <!--**END EDIT DVD FORM **-->
+
+
+
+
+      <!--BEGIN DISPLAY DVD DETAILS-->
+      <div>
+        <form class = "form-horizontal" role = "form" id = 'display-dvd-details-form'>
+          <h2 id ="display-dvd-title"> DVD Title </h2>
+          <hr/>
+          <div class = "form-group">
+            <label style = "text-align:left;"for ="display-release-year-details" class="col-md-1 control-label">Title:</label>
+            <div class="col-md-11">
+              <input style = "width: 25%;" type="text" class="form-control" id="display-release-year-rating" required/>
+            </div>
+          </div>
+
+          <div class = "form-group">
+            <label style = "text-align: left;" for ="display-director-details" class="col-md-1 control-label">Release Year:</label>
+            <div class="col-md-11">
+              <input style = "width: 25%;" type="text" class="form-control" id="display-director-details" required/>
+            </div>
+          </div>
+
+          <div class = "form-group">
+            <label style = "text-align:left;" for ="display-rating-details" class="col-md-1 control-label">Director:</label>
+            <div class="col-md-11">
+              <input style = "width: 25%" type="text" class="form-control" id="display-rating-details" required/>
+            </div>
+          </div>
+
+
+          <div class = "form-group">
+            <label style = "text-align:left;"  for ="display-notes-details" class="col-md-1 control-label">Notes:</label>
+            <div class="col-md-11">
+              <textarea style = "width:25%;" rows = "5" type="text" class="form-control" id="display-notes-details"> </textarea>
+            </div>
+          </div>
+
+          <div class="form-group col-md-2">
+            <button type="button" id = "display-details-back-button" class="btn btn-primary"> Back</button>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- END DISPLAY DVD DETAILS -->
+</div> <!--container div -->
+
+
+        <!-- #5: Placed at the end of the document so the pages load faster -->
+        <script src="js/jquery-2.2.4.min.js"></script>
+        <script src="js/bootstrap.js"></script>
+        <script src="js/home.js"></script>
+    </body>
+</html>
