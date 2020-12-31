@@ -6,7 +6,7 @@ using System.Web;
 
 namespace DVDLibraryDatabaseWebAPIv2.Repositories
 {
-    public class DvdRepositoryMock
+    public class DvdRepositoryMock : IDvdRepository
     {
         //Sample Data
         //since it is static, it will be shared across all web requests
@@ -21,27 +21,33 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
 
         };
 
+        //note: 12/31/20 removed "static from the folowing methods, as static methods not allowed when implementing an interface
+        //This is a repository for test data and was intended for the data not to change for testing purposes in original
+        // project, for this project it will likely not impact functioing properly but data may change in different runs of program
+        // because the methods are no longer static.
+        // watch for errors in data received.
+
         //returns all dvds in List
-        public static List<Dvd> GetAll()
+        public List<Dvd> GetAll()
         {
             return _dvds;
         }
 
         //returns one movie based on ID number
-        public static Dvd Get(int dvdId)
+        public Dvd Get(int dvdId)
         {
             return _dvds.FirstOrDefault(m => m.DvdId == dvdId);
         }
 
         //adds a dvd to a the dvd list
-        public static void Add(Dvd dvd)
+        public void Add(Dvd dvd)
         {
             dvd.DvdId = _dvds.Max(d => d.DvdId) + 1;
             _dvds.Add(dvd);
         }
 
         //replaces dvd with the dvd passed in through parameter if found
-        public static void Edit(Dvd dvd)
+        public void Edit(Dvd dvd)
         {
             var found = _dvds.FirstOrDefault(d => d.DvdId == dvd.DvdId);
 
@@ -50,7 +56,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
         }
 
         //removes dvd by id number
-        public static void Delete(int dvdID)
+        public void Delete(int dvdID)
         {
             _dvds.RemoveAll(d => d.DvdId == dvdID);
         }

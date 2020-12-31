@@ -97,8 +97,12 @@
     </Compile>
     <Compile Include="Models\AddDvdRequest.cs" />
     <Compile Include="Models\Dvd.cs" />
+    <Compile Include="Models\IDvdRepository.cs" />
+    <Compile Include="Models\RepositoryFactory.cs" />
     <Compile Include="Models\UpdateDvdRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\DVDRepositoryADO.cs" />
+    <Compile Include="Repositories\DvdRepositoryEF.cs" />
     <Compile Include="Repositories\DvdRepositoryMock.cs" />
   </ItemGroup>
   <ItemGroup>

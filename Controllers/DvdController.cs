@@ -17,7 +17,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Controllers
         [AcceptVerbs("GET")]
         public IHttpActionResult All()
         {
-            return Ok(DvdRepositoryMock.GetAll());
+            return Ok(RepositoryFactory.Create().GetAll());
         }
 
         //this action menthod will repspond to dvds/get/?dvdId=x (x is replaced with the id of the movie ex 1)
@@ -28,7 +28,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Controllers
         [AcceptVerbs("GET")]
         public IHttpActionResult Get(int dvdId)
         {
-            Dvd dvd = DvdRepositoryMock.Get(dvdId);
+            Dvd dvd = RepositoryFactory.Create().Get(dvdId);
 
             if(dvd == null)
             {
@@ -59,7 +59,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Controllers
                 Rating = request.Rating
             };
 
-            DvdRepositoryMock.Add(dvd);
+            RepositoryFactory.Create().Add(dvd);
             return Created($"dvds/get/{dvd.DvdId}", dvd);
 
         }
@@ -73,7 +73,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Controllers
                 return BadRequest(ModelState);
             }
 
-            Dvd dvd = DvdRepositoryMock.Get(request.DvdId);
+            Dvd dvd = RepositoryFactory.Create().Get(request.DvdId);
 
             if(dvd == null)
             {
@@ -83,7 +83,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Controllers
             dvd.Title = request.Title;
             dvd.Rating = request.Rating;
 
-            DvdRepositoryMock.Edit(dvd);
+            RepositoryFactory.Create().Edit(dvd);
             return Ok(dvd);
         }
 
@@ -91,14 +91,14 @@ namespace DVDLibraryDatabaseWebAPIv2.Controllers
         [AcceptVerbs("DELETE")]
         public IHttpActionResult Delete(int dvdId)
         {
-            Dvd dvd = DvdRepositoryMock.Get(dvdId);
+            Dvd dvd = RepositoryFactory.Create().Get(dvdId);
 
             if(dvd == null)
             {
                 return NotFound();
             }
 
-            DvdRepositoryMock.Delete(dvdId);
+            RepositoryFactory.Create().Delete(dvdId);
             return Ok();
         }
 
