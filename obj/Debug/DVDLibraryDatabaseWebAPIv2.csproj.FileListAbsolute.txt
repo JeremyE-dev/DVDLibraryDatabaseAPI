@@ -68,3 +68,7 @@ C:\Users\Jeremy\source\repos\DVDLibraryDatabaseWebAPIv2\obj\Debug\DVDLibraryData
 C:\Users\Jeremy\source\repos\DVDLibraryDatabaseWebAPIv2\bin\System.Web.Cors.dll
 C:\Users\Jeremy\source\repos\DVDLibraryDatabaseWebAPIv2\bin\System.Web.Http.Cors.dll
 C:\Users\Jeremy\source\repos\DVDLibraryDatabaseWebAPIv2\bin\System.Web.Http.Cors.xml
+C:\Users\Jeremy\source\repos\DVDLibraryDatabaseAPI\obj\Debug\DVDLibraryDatabaseWebAPIv2.csprojAssemblyReference.cache
+C:\Users\Jeremy\source\repos\DVDLibraryDatabaseAPI\obj\Debug\DVDLibraryDatabaseWebAPIv2.csproj.CoreCompileInputs.cache
+C:\Users\Jeremy\source\repos\DVDLibraryDatabaseAPI\obj\Debug\DVDLibraryDatabaseWebAPIv2.dll
+C:\Users\Jeremy\source\repos\DVDLibraryDatabaseAPI\obj\Debug\DVDLibraryDatabaseWebAPIv2.pdb
