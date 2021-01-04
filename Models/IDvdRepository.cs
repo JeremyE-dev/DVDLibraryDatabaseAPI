@@ -12,7 +12,12 @@ namespace DVDLibraryDatabaseWebAPIv2.Models
 
 
         //returns one movie based on ID number
-        Dvd Get(int dvdId);
+        Dvd GetById(int dvdId);
+        Dvd GetByReleaseYear(int releaseYear);
+        Dvd GetByTitle(string title);
+
+        Dvd GetByDirectorName(string director);
+        Dvd GetByRating(string rating);
 
 
         //adds a dvd to a the dvd list

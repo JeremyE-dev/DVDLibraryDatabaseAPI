@@ -32,5 +32,30 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public Dvd GetByDirectorName(string director)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Dvd GetById(int dvdId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Dvd GetByRating(string rating)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Dvd GetByReleaseYear(int releaseYear)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Dvd GetByTitle(string title)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

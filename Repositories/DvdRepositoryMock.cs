@@ -9,17 +9,18 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
 
 
     //per specifications, this repo must provide
-    //Retreive a Dvd by ID - get
-    //Retreive all DVDs - get
+    //--COMPLETED---------------------------
+    //Retreive a Dvd by ID - get --COMPLETED
+    //Retreive all DVDs - get --COMPLETED
+    //Update an Existing DVD - PUT --COMPLETED
+    //Create a new DVD - Post -- COMPLETED
+    //Delete an ID - Delete --COMPLETED
+
+    //--NEED TO COMPLETE
     //Retreive DVD by title - get
     //Retreive DVD by Release Year - get
     //Retreive DVD by DirectorName - get
     //Retreive DVD by Ratinhg - get
-    //Create a new DVD - Post
-    //Update an dExisting DVD - Put
-    //Delete an ID - Delete
-
-
 
     public class DvdRepositoryMock : IDvdRepository
     {
@@ -43,18 +44,41 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
         // watch for errors in data received.
 
         //returns all dvds in List
+        //Retreive all DVDs - GET
         public List<Dvd> GetAll()
         {
             return _dvds;
         }
 
         //returns one movie based on ID number
-        public Dvd Get(int dvdId)
+        //Retreive a Dvd by ID - GET
+        public Dvd GetById(int dvdId)
         {
             return _dvds.FirstOrDefault(m => m.DvdId == dvdId);
         }
 
-        //adds a dvd to a the dvd list
+        public Dvd GetByReleaseYear(int releaseYear)
+        {
+            return _dvds.FirstOrDefault(m => m.ReleaseYear == releaseYear);
+        }
+        
+        //Retreive DVD by title - get'
+        public Dvd GetByTitle(String title)
+        {
+            return _dvds.FirstOrDefault(m => m.Title == title);
+        }
+
+        //Retreive DVD by DirectorName - get
+        public Dvd GetByDirectorName(String director)
+        {
+            return _dvds.FirstOrDefault(m => m.Director == director);
+        }
+        //Retreive DVD by Rating - get
+        public Dvd GetByRating(String rating)
+        {
+            return _dvds.FirstOrDefault(m => m.Rating == rating);
+        }
+        //Create a new DVD - Post
         public void Add(Dvd dvd)
         {
             dvd.DvdId = _dvds.Max(d => d.DvdId) + 1;
@@ -62,6 +86,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
         }
 
         //replaces dvd with the dvd passed in through parameter if found
+        ////Update an Existing DVD - PUT
         public void Edit(Dvd dvd)
         {
             var found = _dvds.FirstOrDefault(d => d.DvdId == dvd.DvdId);
@@ -71,10 +96,12 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
         }
 
         //removes dvd by id number
+        ////Delete an ID - Delete
         public void Delete(int dvdID)
         {
             _dvds.RemoveAll(d => d.DvdId == dvdID);
         }
+
 
 
 
