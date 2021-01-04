@@ -6,6 +6,21 @@ using System.Web;
 
 namespace DVDLibraryDatabaseWebAPIv2.Repositories
 {
+
+
+    //per specifications, this repo must provide
+    //Retreive a Dvd by ID - get
+    //Retreive all DVDs - get
+    //Retreive DVD by title - get
+    //Retreive DVD by Release Year - get
+    //Retreive DVD by DirectorName - get
+    //Retreive DVD by Ratinhg - get
+    //Create a new DVD - Post
+    //Update an dExisting DVD - Put
+    //Delete an ID - Delete
+
+
+
     public class DvdRepositoryMock : IDvdRepository
     {
         //Sample Data
