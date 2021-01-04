@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using DVDLibraryDatabaseWebAPIv2.Models;
+using System.Data;
 
 namespace DVDLibraryDatabaseWebAPIv2.Repositories
 {
@@ -30,7 +32,25 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
 
         public List<Dvd> GetAll()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            List<Dvd> dvds = new List<Dvd>();
+
+            using (SqlConnection conn = new SqlConnection())
+            {
+                conn.ConnectionString = "Server=localhost; Database=DvdLibrary; User Id=sa;Password=sqlserver";
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "DvdSelectAll";
+                conn.Open();
+            
+                //add SQLdataReader Block next
+
+            }
+
+            return dvds;
+
+
         }
 
         public Dvd GetByDirectorName(string director)
