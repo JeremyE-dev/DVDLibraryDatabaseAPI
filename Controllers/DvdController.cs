@@ -28,7 +28,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Controllers
         [AcceptVerbs("GET")]
         public IHttpActionResult Get(int dvdId)
         {
-            Dvd dvd = RepositoryFactory.Create().Get(dvdId);
+            Dvd dvd = RepositoryFactory.Create().GetById(dvdId);
 
             if(dvd == null)
             {
@@ -73,7 +73,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Controllers
                 return BadRequest(ModelState);
             }
 
-            Dvd dvd = RepositoryFactory.Create().Get(request.DvdId);
+            Dvd dvd = RepositoryFactory.Create().GetById(request.DvdId);
 
             if(dvd == null)
             {
@@ -91,7 +91,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Controllers
         [AcceptVerbs("DELETE")]
         public IHttpActionResult Delete(int dvdId)
         {
-            Dvd dvd = RepositoryFactory.Create().Get(dvdId);
+            Dvd dvd = RepositoryFactory.Create().GetById(dvdId);
 
             if(dvd == null)
             {

@@ -33,7 +33,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
             throw new NotImplementedException();
         }
 
-        public Dvd GetByDirectorName(string director)
+        public List<Dvd> GetByDirectorName(string director)
         {
             throw new NotImplementedException();
         }

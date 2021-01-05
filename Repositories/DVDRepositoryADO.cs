@@ -26,10 +26,10 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
             throw new NotImplementedException();
         }
 
-        public Dvd Get(int dvdId)
-        {
-            throw new NotImplementedException();
-        }
+        //public Dvd Get(int dvdId)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public List<Dvd> GetAll()
         {
@@ -92,7 +92,6 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
 
                 conn.Open();
 
-                //add SQLdataReader Block next
 
                 using (SqlDataReader dr = cmd.ExecuteReader())
                 {
@@ -123,22 +122,172 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
 
         public Dvd GetById(int dvdId)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            //this is the LIST of DVds
+            Dvd dvd = new Dvd();
+
+            using (SqlConnection conn = new SqlConnection())
+            {
+                conn.ConnectionString = ConfigurationManager.ConnectionStrings["DvdLibrary"].ConnectionString;
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "DvdSelectById";
+                cmd.Parameters.AddWithValue("@DvdId", dvdId);
+
+                conn.Open();
+
+
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    { //inside while loop dealing with single row of data
+                        
+                        dvd.DvdId = (int)dr["DvdId"];
+                        dvd.Title = dr["Title"].ToString();
+
+                        //check for null values before casting from ReleaseYear since it is a nullable int
+                        if (dr["ReleaseYear"] != DBNull.Value)
+                            dvd.ReleaseYear = (int)dr["ReleaseYear"];
+
+                        dvd.DirectorName = dr["DirectorName"].ToString();
+                        dvd.RatingName = dr["RatingName"].ToString();
+                        dvd.Notes = dr["Notes"].ToString();
+
+                        
+                    }
+                }
+            }
+
+            return dvd;
         }
 
-        public Dvd GetByRating(string rating)
+        public List<Dvd> GetByRating(string rating)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            //this is the LIST of DVds
+            List<Dvd> dvds = new List<Dvd>();
+
+            using (SqlConnection conn = new SqlConnection())
+            {
+                conn.ConnectionString = ConfigurationManager.ConnectionStrings["DvdLibrary"].ConnectionString;
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "DvdSelectByRating";
+                cmd.Parameters.AddWithValue("@RatingName", rating);
+
+                conn.Open();
+
+
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    { //inside while loop dealing with single row of data
+
+                        // This is a SINGLE dvd that will be added to the list
+                        Dvd currentRow = new Dvd();
+                        currentRow.DvdId = (int)dr["DvdId"];
+                        currentRow.Title = dr["Title"].ToString();
+
+                        //check for null values before casting from ReleaseYear since it is a nullable int
+                        if (dr["ReleaseYear"] != DBNull.Value)
+                            currentRow.ReleaseYear = (int)dr["ReleaseYear"];
+
+                        currentRow.DirectorName = dr["DirectorName"].ToString();
+                        currentRow.RatingName = dr["RatingName"].ToString();
+                        currentRow.Notes = dr["Notes"].ToString();
+
+                        dvds.Add(currentRow);
+                    }
+                }
+            }
+
+            return dvds;
         }
 
-        public Dvd GetByReleaseYear(int releaseYear)
+        public List<Dvd> GetByReleaseYear(int releaseYear)
         {
-            throw new NotImplementedException();
+            
+            //this is the LIST of DVds
+            List<Dvd> dvds = new List<Dvd>();
+
+            using (SqlConnection conn = new SqlConnection())
+            {
+                conn.ConnectionString = ConfigurationManager.ConnectionStrings["DvdLibrary"].ConnectionString;
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "DvdSelectByReleaseYear";
+                cmd.Parameters.AddWithValue("@ReleaseYear", releaseYear);
+
+                conn.Open();
+
+
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    { //inside while loop dealing with single row of data
+
+                        // This is a SINGLE dvd that will be added to the list
+                        Dvd currentRow = new Dvd();
+                        currentRow.DvdId = (int)dr["DvdId"];
+                        currentRow.Title = dr["Title"].ToString();
+
+                        //check for null values before casting from ReleaseYear since it is a nullable int
+                        if (dr["ReleaseYear"] != DBNull.Value)
+                            currentRow.ReleaseYear = (int)dr["ReleaseYear"];
+
+                        currentRow.DirectorName = dr["DirectorName"].ToString();
+                        currentRow.RatingName = dr["RatingName"].ToString();
+                        currentRow.Notes = dr["Notes"].ToString();
+
+                        dvds.Add(currentRow);
+                    }
+                }
+            }
+
+            return dvds;
         }
 
         public Dvd GetByTitle(string title)
         {
-            throw new NotImplementedException();
+            Dvd dvd = new Dvd();
+
+            using (SqlConnection conn = new SqlConnection())
+            {
+                conn.ConnectionString = ConfigurationManager.ConnectionStrings["DvdLibrary"].ConnectionString;
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "DvdSelectByTitle";
+                cmd.Parameters.AddWithValue("@Title", title);
+
+                conn.Open();
+
+
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    { //inside while loop dealing with single row of data
+
+                        dvd.DvdId = (int)dr["DvdId"];
+                        dvd.Title = dr["Title"].ToString();
+
+                        //check for null values before casting from ReleaseYear since it is a nullable int
+                        if (dr["ReleaseYear"] != DBNull.Value)
+                            dvd.ReleaseYear = (int)dr["ReleaseYear"];
+
+                        dvd.DirectorName = dr["DirectorName"].ToString();
+                        dvd.RatingName = dr["RatingName"].ToString();
+                        dvd.Notes = dr["Notes"].ToString();
+
+
+                    }
+                }
+            }
+
+            return dvd;
         }
     }
 }
