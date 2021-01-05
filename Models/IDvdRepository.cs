@@ -16,7 +16,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Models
         Dvd GetByReleaseYear(int releaseYear);
         Dvd GetByTitle(string title);
 
-        Dvd GetByDirectorName(string director);
+        List<Dvd> GetByDirectorName(string director);
         Dvd GetByRating(string rating);
 
 

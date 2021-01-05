@@ -56,7 +56,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Controllers
             Dvd dvd = new Dvd()
             {
                 Title = request.Title,
-                Rating = request.Rating
+                RatingName = request.Rating
             };
 
             RepositoryFactory.Create().Add(dvd);
@@ -81,7 +81,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Controllers
             }
 
             dvd.Title = request.Title;
-            dvd.Rating = request.Rating;
+            dvd.RatingName = request.Rating;
 
             RepositoryFactory.Create().Edit(dvd);
             return Ok(dvd);

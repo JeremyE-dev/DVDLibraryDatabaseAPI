@@ -29,11 +29,11 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
         // and any changes to data will remain in memory as long as WEp API project is running
         private static List<Dvd> _dvds = new List<Dvd>
         {
-            new Dvd {DvdId = 0, Title = "A Great Tale", ReleaseYear = 2015, Director = "Sam Jones",
-                Rating = "PG", Notes = "This is a really great tale"},
+            new Dvd {DvdId = 0, Title = "A Great Tale", ReleaseYear = 2015, DirectorName = "Sam Jones",
+                RatingName = "PG", Notes = "This is a really great tale"},
 
-            new Dvd {DvdId = 1, Title = "A Good Tale", ReleaseYear = 2012, Director = "Joe Smith",
-                Rating = "PG-13", Notes = "This is a good tale"}
+            new Dvd {DvdId = 1, Title = "A Good Tale", ReleaseYear = 2012, DirectorName = "Joe Smith",
+                RatingName = "PG-13", Notes = "This is a good tale"}
 
         };
 
@@ -68,15 +68,25 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
             return _dvds.FirstOrDefault(m => m.Title == title);
         }
 
-        //Retreive DVD by DirectorName - get
-        public Dvd GetByDirectorName(String director)
+        //Retreive all DVDs by DirectorName - get
+        public List<Dvd> GetByDirectorName(String director)
         {
-            return _dvds.FirstOrDefault(m => m.Director == director);
+            List<Dvd> listOfDvdsByDirector = new List<Dvd>();
+            var dvdsByDirector = from d in _dvds
+                                 where d.DirectorName == director
+                                 select d;
+            
+            foreach(Dvd x in dvdsByDirector)
+            {
+                listOfDvdsByDirector.Add(x);
+            }
+
+            return listOfDvdsByDirector;
         }
         //Retreive DVD by Rating - get
         public Dvd GetByRating(String rating)
         {
-            return _dvds.FirstOrDefault(m => m.Rating == rating);
+            return _dvds.FirstOrDefault(m => m.RatingName == rating);
         }
         //Create a new DVD - Post
         public void Add(Dvd dvd)
