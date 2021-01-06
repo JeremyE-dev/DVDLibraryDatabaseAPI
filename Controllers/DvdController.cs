@@ -53,12 +53,27 @@ namespace DVDLibraryDatabaseWebAPIv2.Controllers
                 return BadRequest(ModelState);
             }
 
+            //inorder to pass the model to the database it needs
+            // 1.) DvdvId to be created
+            // 2.) Take in Year from request
+            // if null - leave null
+            // if year included - check db to see if it exists
+            // if exists - get id and add to request model
+            // if does not exists - get number of records add 1 to that number
+            // add that number and the release year to the release Year Table
+            // repeat process for director and rating
+
             Dvd dvd = new Dvd()
             {
                 Title = request.Title,
-                RatingName = request.Rating
+                ReleaseYear = request.ReleaseYear,
+                DirectorName = request.DirectorName,
+                RatingName = request.RatingName,
+                Notes = request.Notes
+
             };
 
+            //pass the dvd information to the repository 
             RepositoryFactory.Create().Add(dvd);
             return Created($"dvds/get/{dvd.DvdId}", dvd);
 

@@ -11,9 +11,58 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
 {
     public class DVDRepositoryADO : IDvdRepository
     {
+        //Takes in a dvd model and adds to DvdLibrary via stored procedure
+        //Stored procedure takes in a ReleaseYear, Director, ratingID, but DVD 
         public void Add(Dvd dvd)
         {
-            throw new NotImplementedException();
+            //1.) create dvd id
+            int newDvdId = GetAll().Count + 1;
+
+            //if release year passed in is not null
+            if(dvd.ReleaseYear != null)
+            {
+                //find th id number of the release year passed in 
+                int? releaseYearId = GetReleaseYearId(dvd.ReleaseYear);
+                
+                //at this point in code if GetReleaseYeaqrId -- from db-- is null then the release year doesnot exist, so create a record with 
+                //an id number which is total records in the release year table plus one and and the release year passed in
+                if (releaseYearId == null)
+                {
+                    //1/7/21 - create procedure to calculate id number
+                    //releaseYearId = number of records in release year table plus one
+                    AddReleaseYearAndIdToTable((int)releaseYearId, (int)dvd.ReleaseYear);
+                }            
+            }
+        
+            //2.) Does Year Included Exist?
+            // if there isno release yearid associated with the release year, then create one.
+        
+
+
+            // 2.) Take in Year from request
+            // if null - leave null
+            // if year included - check db to see if it exists
+            // if exists - get id and add to request model
+            // if does not exists - get number of records add 1 to that number
+            // add that number and the release year to the release Year Table
+            // repeat process for director and rating
+
+
+            //throw new NotImplementedException();
+            using (SqlConnection conn = new SqlConnection())
+            {
+                conn.ConnectionString = ConfigurationManager.ConnectionStrings["DvdLibrary"].ConnectionString;
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "DvdInsert";
+                //sql model needs a ReleaseYearId versus year -- 
+                //cmd.Parameters.AddWithValue("@ReleaseYearId", dvd.ReleaseYear);
+                cmd.Parameters.AddWithValue("@DvdId", newDvdId);
+                cmd.Parameters.AddWithValue("@Title", dvd.Title);
+                cmd.Parameters.AddWithValue("@Notes", dvd.Notes);
+
+                conn.Open();
+            }
         }
 
         public void Delete(int dvdID)
@@ -26,10 +75,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
             throw new NotImplementedException();
         }
 
-        //public Dvd Get(int dvdId)
-        //{
-        //    throw new NotImplementedException();
-        //}
+    
 
         public List<Dvd> GetAll()
         {
@@ -289,5 +335,61 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
 
             return dvd;
         }
+
+        public int? GetReleaseYearId(int? releaseYear)
+        {
+
+            int? id = null;
+            using (SqlConnection conn = new SqlConnection())
+            {
+                conn.ConnectionString = ConfigurationManager.ConnectionStrings["DvdLibrary"].ConnectionString;
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "GetReleaseYearID";
+                cmd.Parameters.AddWithValue("@ReleaseYear", releaseYear);
+
+                conn.Open();
+
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    
+                    while (dr.Read())
+                    { //inside while loop dealing with single row of data
+
+                        if (dr["ReleaseYear"] != DBNull.Value)
+                            id = (int)dr["ReleaseYearId"];
+
+
+                    }
+                }
+
+            }
+            return id;
+        }
+
+        public void AddReleaseYearAndIdToTable(int releaseYearId, int releaseYear)
+        {
+
+            int? id = null;
+            using (SqlConnection conn = new SqlConnection())
+            {
+                conn.ConnectionString = ConfigurationManager.ConnectionStrings["DvdLibrary"].ConnectionString;
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "InsertReleaseYearIdandYear";
+                cmd.Parameters.AddWithValue("@ReleaseYearId", releaseYearId);
+                cmd.Parameters.AddWithValue("@ReleaseYear", releaseYear);
+
+
+                conn.Open();
+
+                cmd.ExecuteNonQuery();
+
+            }
+            
+        }
+
     }
 }

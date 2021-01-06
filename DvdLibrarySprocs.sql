@@ -178,8 +178,42 @@ as
 	where DvdId = @DvdId
 go
 
+if exists (select * from INFORMATION_SCHEMA.ROUTINES
+where ROUTINE_NAME = 'GetReleaseYearId')
+drop procedure GetReleaseYearId
 
+go 
 
+create procedure GetReleaseYearId(
+@ReleaseYear int
+)
+as
 
+select y.ReleaseYearId
+from ReleaseYear y
+where y.ReleaseYear = @ReleaseYear
+
+go
+
+if exists (select * from INFORMATION_SCHEMA.ROUTINES
+where ROUTINE_NAME = 'InsertReleaseYearIdAndYear')
+drop procedure InsertReleaseYearIdAndYear
+
+go 
+
+create procedure InsertReleaseYearIdAndYear(
+@ReleaseYear int,
+@ReleaseYearId int
+)
+as
+
+set Identity_insert ReleaseYear on
+
+insert into ReleaseYear (ReleaseYearId, ReleaseYear)
+values(@ReleaseYearId, @ReleaseYear)
+
+set Identity_insert ReleaseYear on
+
+go
 
 
