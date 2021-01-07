@@ -15,36 +15,44 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
         //Stored procedure takes in a ReleaseYear, Director, ratingID, but DVD 
         public void Add(Dvd dvd)
         {
-            //1.) create dvd id
+            //CREATE DVD ID
             int newDvdId = GetAll().Count + 1;
 
-            //if release year passed in is not null
+            int? releaseYearId = null;
+            int? directorId = null;
+            int? ratingId = null;
+
+            //IF DVD RELEASE YEAR IS NULL LEAVE IT NULL
+            //-- USER IS NOT REQUIRED TO INCLUDE A RELEASE YEAR--
             if(dvd.ReleaseYear != null)
             {
-                //find th id number of the release year passed in 
-                int? releaseYearId = GetReleaseYearId(dvd.ReleaseYear);
+                //IF A RELEASE YEAR IS INCLUDED IN THE ADD REQUEST
+                //--CREATE A NULLABLE INTEGER SEARCH FOR RELEASE YEAR IN DATABASE, SET INTEGER TO DATA RETURNED BY SEARCH METHOD
+                //--IF DATA RETURNED BY SEARCH METHOD IS NULL
+                //----ADD THE RELEASEYEAR(OF THE DVD PASSED IN) AND RELEASEYEARID TO THE TABLE
+                //releaseYearId = GetReleaseYearId(dvd.ReleaseYear);
+
+                releaseYearId = GetIdByTableContentInteger(dvd.ReleaseYear, "GetReleaseYearID", "@ReleaseYear", "ReleaseYear", "ReleaseYearId");
                 
-                //at this point in code if GetReleaseYeaqrId -- from db-- is null then the release year doesnot exist, so create a record with 
-                //an id number which is total records in the release year table plus one and and the release year passed in
+               
                 if (releaseYearId == null)
                 {
-                    //1/7/21 - create procedure to calculate id number
-                    //releaseYearId = number of records in release year table plus one
-                    AddReleaseYearAndIdToTable((int)releaseYearId, (int)dvd.ReleaseYear);
-                }            
+                    //SET ID NUMBER USING NUMBER OF RECORDS METHOD AND ADD ONE
+                    //releaseYearId = GetNumberOfRecordsInReleaseYear() + 1;
+                    //USING GENERALIZED VERSION
+                    releaseYearId = GetNumberOfRecordsInTable("NumberOfRecordsInReleaseYear") + 1;
+
+                    //ADD THE RELEASE YEAR AND ID TO TABLE
+                    //AddReleaseYearAndIdToTable((int)releaseYearId, (int)dvd.ReleaseYear);
+                    //USING GENERALIZED VERSION
+                    AddDataAndIdToTable((int)releaseYearId, (int)dvd.ReleaseYear, "InsertReleaseYearIdAndYear", "@ReleaseYearId", "@ReleaseYear");
+
+                }
+
+                //IF RELEASEYEAR IS NOT NULL, THEN IT IS IN THE TABLE AND CAN ADD RELEASEYEARID TO DVD
+
             }
-        
-            //2.) Does Year Included Exist?
-            // if there isno release yearid associated with the release year, then create one.
-        
-
-
-            // 2.) Take in Year from request
-            // if null - leave null
-            // if year included - check db to see if it exists
-            // if exists - get id and add to request model
-            // if does not exists - get number of records add 1 to that number
-            // add that number and the release year to the release Year Table
+       
             // repeat process for director and rating
 
 
@@ -60,6 +68,8 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
                 cmd.Parameters.AddWithValue("@DvdId", newDvdId);
                 cmd.Parameters.AddWithValue("@Title", dvd.Title);
                 cmd.Parameters.AddWithValue("@Notes", dvd.Notes);
+                cmd.Parameters.AddWithValue("@ReleaseYearId", releaseYearId);
+
 
                 conn.Open();
             }
@@ -368,10 +378,91 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
             return id;
         }
 
-        public void AddReleaseYearAndIdToTable(int releaseYearId, int releaseYear)
+        //GENERALIZED VERSION
+        //USE THIS TO GET ID FROM SQL DATABASE BY PASSING IN TABLE DATA (i.e. ReleaseYear, Director, Rating)
+        public int? GetIdByTableContentInteger(int? tablecontent, string commandText, string sqlParameter, string sqlTableName, string sqlFieldInTable )
         {
 
             int? id = null;
+            using (SqlConnection conn = new SqlConnection())
+            {
+                conn.ConnectionString = ConfigurationManager.ConnectionStrings["DvdLibrary"].ConnectionString;
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = commandText; //ex. "GetReleaseYearID"
+                cmd.Parameters.AddWithValue(sqlParameter, tablecontent); //ex. @ReleaseYear, releaseYear
+
+                conn.Open();
+
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+
+                    while (dr.Read())
+                    { //inside while loop dealing with single row of data
+
+                        if (dr[sqlTableName] != DBNull.Value) //ex. "ReleaseYear"
+                            id = (int)dr[sqlFieldInTable]; // ex. "ReleaseYearId"
+
+                    }
+                }
+
+            }
+            return id;
+        }
+
+
+        public int GetNumberOfRecordsInReleaseYear()
+        {
+            int count = 0;
+
+            using (SqlConnection conn = new SqlConnection())
+            {
+
+                conn.ConnectionString = ConfigurationManager.ConnectionStrings["DvdLibrary"].ConnectionString;
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "NumberOfRecordsInReleaseYear";
+                
+
+                conn.Open();
+
+                count = (int)cmd.ExecuteScalar();
+
+            }
+
+            return count;
+        }
+
+        //GENERALIZED VERSION
+        public int GetNumberOfRecordsInTable(string nameOfStoredProcedure)
+        {
+            int count = 0;
+
+            using (SqlConnection conn = new SqlConnection())
+            {
+
+                conn.ConnectionString = ConfigurationManager.ConnectionStrings["DvdLibrary"].ConnectionString;
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = nameOfStoredProcedure; //ex."NumberOfRecordsInReleaseYear" --name of stored procedure
+
+
+                conn.Open();
+
+                count = (int)cmd.ExecuteScalar();
+
+            }
+
+            return count;
+        }
+
+        public void AddReleaseYearAndIdToTable(int releaseYearId, int releaseYear)
+        {
+
+            //int? id = null;
             using (SqlConnection conn = new SqlConnection())
             {
                 conn.ConnectionString = ConfigurationManager.ConnectionStrings["DvdLibrary"].ConnectionString;
@@ -387,8 +478,33 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
 
                 cmd.ExecuteNonQuery();
 
+
             }
             
+        }
+
+        //GENERALIZED VERSION
+        public void AddDataAndIdToTable(int id, int data, string nameOfStoredProcedure, string nameOfSqlId, string nameOfSqlData)
+        {
+
+            //int? id = null;
+            using (SqlConnection conn = new SqlConnection())
+            {
+                conn.ConnectionString = ConfigurationManager.ConnectionStrings["DvdLibrary"].ConnectionString;
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = nameOfStoredProcedure; //name of stored procedure -- ex. "InsertReleaseYearIdandYear"
+                cmd.Parameters.AddWithValue(nameOfSqlId,id);
+                cmd.Parameters.AddWithValue(nameOfSqlData, data);
+
+
+                conn.Open();
+
+                cmd.ExecuteNonQuery();
+
+            }
+
         }
 
     }

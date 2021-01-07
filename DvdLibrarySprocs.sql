@@ -216,4 +216,46 @@ set Identity_insert ReleaseYear on
 
 go
 
+if exists (select * from INFORMATION_SCHEMA.ROUTINES
+where ROUTINE_NAME = 'NumberOfRecordsInReleaseYear')
+drop procedure NumberOfRecordsInReleaseYear
+
+go 
+
+create procedure NumberOfRecordsInReleaseYear
+as
+
+select count(*)
+from ReleaseYear
+
+go
+
+
+if exists (select * from INFORMATION_SCHEMA.ROUTINES
+where ROUTINE_NAME = 'NumberOfRecordsInDirector')
+drop procedure NumberOfRecordsInDirector
+
+go 
+create procedure NumberOfRecordsInDirector
+as
+
+select count(*)
+from Director
+
+go
+
+if exists (select * from INFORMATION_SCHEMA.ROUTINES
+where ROUTINE_NAME = 'NumberOfRecordsInRating')
+drop procedure NumberOfRecordsInRating
+
+go 
+
+create procedure NumberOfRecordsInRating
+as
+
+select count(*)
+from Rating
+
+go
+
 
