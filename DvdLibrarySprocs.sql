@@ -195,6 +195,44 @@ where y.ReleaseYear = @ReleaseYear
 
 go
 
+
+if exists (select * from INFORMATION_SCHEMA.ROUTINES
+where ROUTINE_NAME = 'GetDirectorId')
+drop procedure GetDirectorId
+
+go 
+
+create procedure GetDirectorId(
+@DirectorName varchar(250)
+)
+as
+
+select d.DirectorId
+from Director d
+where d.DirectorName = @DirectorName
+
+go
+
+
+if exists (select * from INFORMATION_SCHEMA.ROUTINES
+where ROUTINE_NAME = 'GetRatingId')
+drop procedure GetRatingId
+
+go 
+
+create procedure GetRatingId(
+@RatingName varchar(250)
+)
+as
+
+select r.RatingId
+from Rating r
+where r.RatingName = @RatingName
+
+go
+
+
+
 if exists (select * from INFORMATION_SCHEMA.ROUTINES
 where ROUTINE_NAME = 'InsertReleaseYearIdAndYear')
 drop procedure InsertReleaseYearIdAndYear
@@ -212,7 +250,7 @@ set Identity_insert ReleaseYear on
 insert into ReleaseYear (ReleaseYearId, ReleaseYear)
 values(@ReleaseYearId, @ReleaseYear)
 
-set Identity_insert ReleaseYear on
+set Identity_insert ReleaseYear off
 
 go
 
@@ -229,6 +267,28 @@ select count(*)
 from ReleaseYear
 
 go
+
+if exists (select * from INFORMATION_SCHEMA.ROUTINES
+where ROUTINE_NAME = 'InsertRatingIdAndName')
+drop procedure InsertRatingIdAndName
+
+go 
+
+create procedure InsertRatingIdAndName(
+@RatingName varchar(50),
+@RatingId int
+)
+as
+
+set Identity_insert Rating on
+
+insert into Director (DirectorId, DirectorName)
+values(@RatingId, @RatingName)
+
+set Identity_insert Rating off
+
+go
+
 
 
 if exists (select * from INFORMATION_SCHEMA.ROUTINES
