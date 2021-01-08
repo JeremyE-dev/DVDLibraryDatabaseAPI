@@ -122,23 +122,94 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
                 cmd.Parameters.AddWithValue("@Notes", dvd.Notes);
                 cmd.Parameters.AddWithValue("@ReleaseYearId", releaseYearId);
                 cmd.Parameters.AddWithValue("@DirectorId", directorId);
-
+                cmd.Parameters.AddWithValue("@RatingId", ratingId);
 
                 conn.Open();
+
+                cmd.ExecuteNonQuery();
             }
         }
 
         public void Delete(int dvdID)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = new SqlConnection())
+            {
+                conn.ConnectionString = ConfigurationManager.ConnectionStrings["DvdLibrary"].ConnectionString;
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "DvdDelete";
+           
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
         }
 
         public void Edit(Dvd dvd)
         {
-            throw new NotImplementedException();
-        }
 
-    
+            int? releaseYearId = null;
+            int? directorId = null;
+            int? ratingId = null;
+
+         
+            if (dvd.ReleaseYear != null)
+            {
+                releaseYearId = GetIdByTableContentInteger(dvd.ReleaseYear, "GetReleaseYearId", "@ReleaseYear",
+                    "ReleaseYear", "ReleaseYearId");
+
+                if (releaseYearId == null)
+                {
+                    releaseYearId = GetNumberOfRecordsInTable("NumberOfRecordsInReleaseYear") + 1;
+                    AddDataAndIdToTable((int)releaseYearId, (int)dvd.ReleaseYear, "InsertReleaseYearIdAndYear",
+                        "@ReleaseYearId", "@ReleaseYear");
+                }
+            }
+
+            if (dvd.DirectorName != null)
+            {
+                directorId = GetIdByTableContentString(dvd.DirectorName, "GetDirectorId", "@DirectorName",
+                    "DirectorName", "DirectorId");
+
+                if (directorId == null)
+                {
+                    directorId = GetNumberOfRecordsInTable("NumberOfRecordsInDirector") + 1;
+                    AddStringDataAndIdToTable((int)directorId, dvd.DirectorName, "InsertDirectorIdAndName",
+                        "@DirectorId", "@DirectorName");
+                }
+            }
+
+            if (dvd.RatingName != null)
+            {
+                ratingId = GetIdByTableContentString(dvd.RatingName, "GetRatingId", "@RatingName",
+                    "RatingName", "RatingId");
+
+                if (directorId == null)
+                { 
+                    directorId = GetNumberOfRecordsInTable("NumberOfRecordsInRating") + 1;
+                    AddStringDataAndIdToTable((int)ratingId, dvd.RatingName, "InsertRatingIdAndName",
+                        "@RatingId", "@RatingName");
+                }
+            }
+
+            using (SqlConnection conn = new SqlConnection())
+            {
+                conn.ConnectionString = ConfigurationManager.ConnectionStrings["DvdLibrary"].ConnectionString;
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "DVdUpdate"; 
+                cmd.Parameters.AddWithValue("@ReleaseYearId",releaseYearId );
+                cmd.Parameters.AddWithValue("@DirectorId", directorId);
+                cmd.Parameters.AddWithValue("@RatingId", ratingId );
+                cmd.Parameters.AddWithValue("@Title", dvd.Title);
+                cmd.Parameters.AddWithValue("@Notes", dvd.Notes);
+
+                conn.Open();
+
+                cmd.ExecuteNonQuery();
+
+            }
+        }
 
         public List<Dvd> GetAll()
         {
@@ -399,39 +470,8 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
             return dvd;
         }
 
-        public int? GetReleaseYearId(int? releaseYear)
-        {
 
-            int? id = null;
-            using (SqlConnection conn = new SqlConnection())
-            {
-                conn.ConnectionString = ConfigurationManager.ConnectionStrings["DvdLibrary"].ConnectionString;
-                SqlCommand cmd = new SqlCommand();
-                cmd.Connection = conn;
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandText = "GetReleaseYearID";
-                cmd.Parameters.AddWithValue("@ReleaseYear", releaseYear);
-
-                conn.Open();
-
-                using (SqlDataReader dr = cmd.ExecuteReader())
-                {
-                    
-                    while (dr.Read())
-                    { //inside while loop dealing with single row of data
-
-                        if (dr["ReleaseYear"] != DBNull.Value)
-                            id = (int)dr["ReleaseYearId"];
-
-
-                    }
-                }
-
-            }
-            return id;
-        }
-
-        //GENERALIZED VERSION
+       
         //USE THIS TO GET ID FROM SQL DATABASE BY PASSING IN TABLE DATA (i.e. ReleaseYear, Director, Rating)
         public int? GetIdByTableContentInteger(int? tablecontent, string commandText, string sqlParameter, string sqlTableName, string sqlFieldInTable )
         {
@@ -496,30 +536,6 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
             return id;
         }
 
-        public int GetNumberOfRecordsInReleaseYear()
-        {
-            int count = 0;
-
-            using (SqlConnection conn = new SqlConnection())
-            {
-
-                conn.ConnectionString = ConfigurationManager.ConnectionStrings["DvdLibrary"].ConnectionString;
-                SqlCommand cmd = new SqlCommand();
-                cmd.Connection = conn;
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandText = "NumberOfRecordsInReleaseYear";
-                
-
-                conn.Open();
-
-                count = (int)cmd.ExecuteScalar();
-
-            }
-
-            return count;
-        }
-
-        //GENERALIZED VERSION
         public int GetNumberOfRecordsInTable(string nameOfStoredProcedure)
         {
             int count = 0;
@@ -542,32 +558,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
 
             return count;
         }
-
-        public void AddReleaseYearAndIdToTable(int releaseYearId, int releaseYear)
-        {
-
-            //int? id = null;
-            using (SqlConnection conn = new SqlConnection())
-            {
-                conn.ConnectionString = ConfigurationManager.ConnectionStrings["DvdLibrary"].ConnectionString;
-                SqlCommand cmd = new SqlCommand();
-                cmd.Connection = conn;
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandText = "InsertReleaseYearIdandYear";
-                cmd.Parameters.AddWithValue("@ReleaseYearId", releaseYearId);
-                cmd.Parameters.AddWithValue("@ReleaseYear", releaseYear);
-
-
-                conn.Open();
-
-                cmd.ExecuteNonQuery();
-
-
-            }
-            
-        }
-
-        //GENERALIZED VERSION
+ 
         public void AddDataAndIdToTable(int id, int data, string nameOfStoredProcedure, string nameOfSqlId, string nameOfSqlData)
         {
 
