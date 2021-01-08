@@ -102,18 +102,21 @@ namespace DVDLibraryDatabaseWebAPIv2.Controllers
             return Ok(dvd);
         }
 
-        [Route("dvds/delete")]
+        [Route("dvds/delete/{dvdId}")]
         [AcceptVerbs("DELETE")]
         public IHttpActionResult Delete(int dvdId)
         {
-            Dvd dvd = RepositoryFactory.Create().GetById(dvdId);
+            //create one instance
 
-            if(dvd == null)
-            {
-                return NotFound();
-            }
+            //Dvd dvd = RepositoryFactory.Create().GetById(dvdId);
 
-            RepositoryFactory.Create().Delete(dvdId);
+            //if(dvd == null)
+            //{
+            //    //why is this null??
+            //    return NotFound();
+            //}
+
+            RepositoryFactory.Create().Delete(dvdId); //consider trycatch all exceptions
             return Ok();
         }
 

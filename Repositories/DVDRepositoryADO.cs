@@ -132,17 +132,52 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
 
         public void Delete(int dvdID)
         {
-            using (SqlConnection conn = new SqlConnection())
+            using (SqlConnection conn = new SqlConnection()) //
             {
-                conn.ConnectionString = ConfigurationManager.ConnectionStrings["DvdLibrary"].ConnectionString;
-                SqlCommand cmd = new SqlCommand();
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandText = "DvdDelete";
-           
-                conn.Open();
-                cmd.ExecuteNonQuery();
+
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    conn.ConnectionString = ConfigurationManager.ConnectionStrings["DvdLibrary"].ConnectionString;
+                
+                    cmd.Connection = conn; //not including this seemed to cause a no initialization error error
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "DvdDelete";
+                    cmd.Parameters.AddWithValue("@DvdId", dvdID);
+
+                    conn.Open();
+
+                    cmd.ExecuteNonQuery();
+                }
+                //    conn.ConnectionString = ConfigurationManager.ConnectionStrings["DvdLibrary"].ConnectionString;
+                ////seems to be saying this is not initialized
+                //SqlCommand cmd = new SqlCommand();
+                //cmd.CommandType = CommandType.StoredProcedure;
+                //cmd.CommandText = "DvdDelete";
+                //cmd.Parameters.AddWithValue("@DvdId",dvdID);
+                
+                //conn.Open();
+         
+                //cmd.ExecuteNonQuery();
+               
             }
         }
+
+
+        //private static void CreateCommand(string queryString,
+        //string connectionString)
+        //{
+        //    using (SqlConnection connection = new SqlConnection(
+        //               connectionString))
+        //    {
+        //        SqlCommand command = new SqlCommand(queryString, connection);
+        //        command.Connection.Open();
+        //        command.ExecuteNonQuery();
+        //    }
+        //}
+
+
+
+
 
         public void Edit(Dvd dvd)
         {

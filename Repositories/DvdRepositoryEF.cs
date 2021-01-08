@@ -43,12 +43,12 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
             throw new NotImplementedException();
         }
 
-        public Dvd GetByRating(string rating)
+        public List<Dvd> GetByRating(string rating)
         {
             throw new NotImplementedException();
         }
 
-        public Dvd GetByReleaseYear(int releaseYear)
+        public List<Dvd> GetByReleaseYear(int releaseYear)
         {
             throw new NotImplementedException();
         }

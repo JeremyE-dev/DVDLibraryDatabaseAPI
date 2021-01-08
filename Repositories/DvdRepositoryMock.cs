@@ -57,9 +57,19 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
             return _dvds.FirstOrDefault(m => m.DvdId == dvdId);
         }
 
-        public Dvd GetByReleaseYear(int releaseYear)
+        public List<Dvd> GetByReleaseYear(int releaseYear)
         {
-            return _dvds.FirstOrDefault(m => m.ReleaseYear == releaseYear);
+            List<Dvd> listOfDvdsByReleaseYear = new List<Dvd>();
+            var dvdsByReleaseYear = from d in _dvds
+                                 where d.ReleaseYear == releaseYear
+                                 select d;
+
+            foreach (Dvd x in dvdsByReleaseYear)
+            {
+                listOfDvdsByReleaseYear.Add(x);
+            }
+
+            return listOfDvdsByReleaseYear;
         }
         
         //Retreive DVD by title - get'
@@ -84,9 +94,19 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
             return listOfDvdsByDirector;
         }
         //Retreive DVD by Rating - get
-        public Dvd GetByRating(String rating)
+        public List<Dvd> GetByRating(String rating)
         {
-            return _dvds.FirstOrDefault(m => m.RatingName == rating);
+            List<Dvd> listOfDvdsByRating = new List<Dvd>();
+            var dvdsByRating = from d in _dvds
+                                 where d.RatingName == rating
+                                 select d;
+
+            foreach (Dvd x in dvdsByRating)
+            {
+                listOfDvdsByRating.Add(x);
+            }
+
+            return listOfDvdsByRating;
         }
         //Create a new DVD - Post
         public void Add(Dvd dvd)
