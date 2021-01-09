@@ -15,8 +15,10 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
         //Stored procedure takes in a ReleaseYear, Director, ratingID, but DVD 
         public void Add(Dvd dvd)
         {
-            //CREATE DVD ID
-            int newDvdId = GetAll().Count + 1;
+            
+           
+            //assign ID to getall + 1
+            dvd.DvdId = GetAll().Count + 1;
 
             int? releaseYearId = null;
             int? directorId = null;
@@ -25,6 +27,8 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
             //IF DVD RELEASE YEAR IS NULL IN THE DVD PASSED IN LEAVE IT NULL
             //-- USER IS NOT REQUIRED TO INCLUDE A RELEASE YEAR--
             //IF IT IS NOT NULL - FIND THE ID NUMBER OF THE RELEASE YEAR AND ADD THAT ID NUMBER TO THE DVD WHEN AADDING IT TO THE TABLE
+            
+            //debug notes: if a releaseyear is passed in, get he releaseYearid of that year
             if(dvd.ReleaseYear != null)
             {
                 //IF A RELEASE YEAR IS INCLUDED IN THE ADD REQUEST
@@ -51,6 +55,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
                 }
             }
 
+            //is director name null at this point
             if (dvd.DirectorName != null)
             {
                 //IF A RELEASE YEAR IS INCLUDED IN THE ADD REQUEST
@@ -113,11 +118,11 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
             {
                 conn.ConnectionString = ConfigurationManager.ConnectionStrings["DvdLibrary"].ConnectionString;
                 SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "DvdInsert";
-                //sql model needs a ReleaseYearId versus year -- 
-                //cmd.Parameters.AddWithValue("@ReleaseYearId", dvd.ReleaseYear);
-                cmd.Parameters.AddWithValue("@DvdId", newDvdId);
+            
+                cmd.Parameters.AddWithValue("@DvdId", dvd.DvdId);
                 cmd.Parameters.AddWithValue("@Title", dvd.Title);
                 cmd.Parameters.AddWithValue("@Notes", dvd.Notes);
                 cmd.Parameters.AddWithValue("@ReleaseYearId", releaseYearId);
@@ -148,35 +153,10 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
 
                     cmd.ExecuteNonQuery();
                 }
-                //    conn.ConnectionString = ConfigurationManager.ConnectionStrings["DvdLibrary"].ConnectionString;
-                ////seems to be saying this is not initialized
-                //SqlCommand cmd = new SqlCommand();
-                //cmd.CommandType = CommandType.StoredProcedure;
-                //cmd.CommandText = "DvdDelete";
-                //cmd.Parameters.AddWithValue("@DvdId",dvdID);
-                
-                //conn.Open();
-         
-                //cmd.ExecuteNonQuery();
+        
                
             }
         }
-
-
-        //private static void CreateCommand(string queryString,
-        //string connectionString)
-        //{
-        //    using (SqlConnection connection = new SqlConnection(
-        //               connectionString))
-        //    {
-        //        SqlCommand command = new SqlCommand(queryString, connection);
-        //        command.Connection.Open();
-        //        command.ExecuteNonQuery();
-        //    }
-        //}
-
-
-
 
 
         public void Edit(Dvd dvd)
@@ -506,34 +486,64 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
         }
 
 
-       
+
         //USE THIS TO GET ID FROM SQL DATABASE BY PASSING IN TABLE DATA (i.e. ReleaseYear, Director, Rating)
+        //                                       //1974               // GetReleaseYearID    //@ReleaseYear    //
         public int? GetIdByTableContentInteger(int? tablecontent, string commandText, string sqlParameter, string sqlTableName, string sqlFieldInTable )
         {
 
             int? id = null;
             using (SqlConnection conn = new SqlConnection())
             {
+                //set connection string
                 conn.ConnectionString = ConfigurationManager.ConnectionStrings["DvdLibrary"].ConnectionString;
+                
+                //initialize comand object
                 SqlCommand cmd = new SqlCommand();
+                
+                //initialize connection property
                 cmd.Connection = conn;
+                
+                //set command type to stored procedure
                 cmd.CommandType = CommandType.StoredProcedure;
+                
+                //set command type to the name of the stored procedure passed in
                 cmd.CommandText = commandText; //ex. "GetReleaseYearID"
-                cmd.Parameters.AddWithValue(sqlParameter, tablecontent); //ex. @ReleaseYear, releaseYear
 
+                //matc the sql parameter to the parameter passes in //ex. @ReleaseYear, releaseYear
+                cmd.Parameters.AddWithValue(sqlParameter, tablecontent);
+
+                //open the connection
                 conn.Open();
 
-                using (SqlDataReader dr = cmd.ExecuteReader())
-                {
+                id = (int?)cmd.ExecuteScalar();
 
-                    while (dr.Read())
-                    { //inside while loop dealing with single row of data
+                //initialize datareader object
+                //using (SqlDataReader dr = cmd.ExecuteReader())
+                //{
+                //    //call dr.Read()
+                //    //-- data reader object contains rows and colums of results
+                //    // Read() - returns true if there is a row of data to raed in, false at end of result set
+                //    //this will be reading each row in the table
+                //    // Id - 1, Year 1974
+                //    //Id -2, Year 1975
+                //    // I dont need to read each rowe because Id by release year returns a single value, either the id or null
+                //    while (dr.Read())
+                //    { //inside while loop dealing with single row of data
 
-                        if (dr[sqlTableName] != DBNull.Value) //ex. "ReleaseYear"
-                            id = (int)dr[sqlFieldInTable]; // ex. "ReleaseYearId"
+                //        //is this true or false
+                //        //if it gets here there is at leat sonr row of data to read
+                //        // if dr[ReleaseYear] is not null 
+                //        //doe 1974 exist in the table
+                //        if (dr[sqlTableName] != DBNull.Value) //ex. "ReleaseYear" - out of range is here
+                //            id = (int)dr[sqlFieldInTable]; // ex. "ReleaseYearId"
 
-                    }
-                }
+
+
+                //    }
+                //}
+                //LOGIC: 
+                //--IF THIS YEAR "1974" EXISTS IN THE TABLE, GIVE ME THE ID OF THAT ROW
 
             }
             return id;
@@ -555,17 +565,19 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
 
                 conn.Open();
 
-                using (SqlDataReader dr = cmd.ExecuteReader())
-                {
+                id = (int?)cmd.ExecuteScalar();
 
-                    while (dr.Read())
-                    { //inside while loop dealing with single row of data
+                //using (SqlDataReader dr = cmd.ExecuteReader())
+                //{
 
-                        if (dr[sqlTableName] != DBNull.Value) //ex. "ReleaseYear"
-                            id = (int)dr[sqlFieldInTable]; // ex. "ReleaseYearId"
+                //    while (dr.Read())
+                //    { //inside while loop dealing with single row of data
 
-                    }
-                }
+                //        if (dr[sqlTableName] != DBNull.Value) //ex. "ReleaseYear"
+                //            id = (int)dr[sqlFieldInTable]; // ex. "ReleaseYearId"
+
+                //    }
+                //}
 
             }
             return id;

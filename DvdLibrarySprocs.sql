@@ -289,6 +289,31 @@ set Identity_insert Rating off
 
 go
 
+if exists (select * from INFORMATION_SCHEMA.ROUTINES
+where ROUTINE_NAME = 'InsertDirectorIdAndName')
+drop procedure InsertDirectorIdAndName
+
+go 
+
+create procedure InsertDirectorIdAndName(
+@DirectorName varchar(50),
+@DirectorId int
+)
+as
+
+set Identity_insert Director on
+
+insert into Director (DirectorId, DirectorName)
+values(@DirectorId, @DirectorName)
+
+set Identity_insert Director off
+
+go
+
+
+
+
+
 
 
 if exists (select * from INFORMATION_SCHEMA.ROUTINES

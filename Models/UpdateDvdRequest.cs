@@ -8,14 +8,12 @@ namespace DVDLibraryDatabaseWebAPIv2.Models
 {
     public class UpdateDvdRequest
     {
-        [Required]
         public int DvdId { get; set; }
-
-        [Required]
         public string Title { get; set; }
+        public int? ReleaseYear { get; set; }
 
-        [Required]
-        public string Rating { get; set; }
-
+        public string DirectorName { get; set; }
+        public string RatingName { get; set; }
+        public string Notes { get; set; }
     }
 }

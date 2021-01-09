@@ -79,7 +79,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Controllers
 
         }
 
-        [Route ("dvds/update")]
+        [Route ("dvds/update/{dvdId}")]
         [AcceptVerbs("PUT")]
         public IHttpActionResult Update(UpdateDvdRequest request)
         {
@@ -88,15 +88,18 @@ namespace DVDLibraryDatabaseWebAPIv2.Controllers
                 return BadRequest(ModelState);
             }
 
+            //put null check in ado code
             Dvd dvd = RepositoryFactory.Create().GetById(request.DvdId);
 
-            if(dvd == null)
-            {
-                return NotFound();
-            }
+       
 
+            
+            dvd.DvdId = request.DvdId;
             dvd.Title = request.Title;
-            dvd.RatingName = request.Rating;
+            dvd.RatingName = request.RatingName;
+            dvd.DirectorName = request.DirectorName;
+            dvd.ReleaseYear = request.ReleaseYear;
+            dvd.Notes = request.Notes;
 
             RepositoryFactory.Create().Edit(dvd);
             return Ok(dvd);
@@ -106,7 +109,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Controllers
         [AcceptVerbs("DELETE")]
         public IHttpActionResult Delete(int dvdId)
         {
-            //create one instance
+            //create one instance, put null check in ado code
 
             //Dvd dvd = RepositoryFactory.Create().GetById(dvdId);
 
