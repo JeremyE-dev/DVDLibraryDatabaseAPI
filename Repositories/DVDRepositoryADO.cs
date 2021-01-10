@@ -162,6 +162,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
         public void Edit(Dvd dvd)
         {
 
+
             int? releaseYearId = null;
             int? directorId = null;
             int? ratingId = null;
@@ -212,7 +213,8 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = conn;
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandText = "DVdUpdate"; 
+                cmd.CommandText = "DVdUpdate";
+                cmd.Parameters.AddWithValue("@DvdId", dvd.DvdId);
                 cmd.Parameters.AddWithValue("@ReleaseYearId",releaseYearId );
                 cmd.Parameters.AddWithValue("@DirectorId", directorId);
                 cmd.Parameters.AddWithValue("@RatingId", ratingId );
