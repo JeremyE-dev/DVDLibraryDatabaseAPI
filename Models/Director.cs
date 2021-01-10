@@ -12,17 +12,18 @@ namespace DVDLibraryDatabaseWebAPIv2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Dvd
+    public partial class Director
     {
-        public int DvdId { get; set; }
-        public Nullable<int> ReleaseYearId { get; set; }
-        public Nullable<int> DirectorId { get; set; }
-        public Nullable<int> RatingId { get; set; }
-        public string Title { get; set; }
-        public string Notes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Director()
+        {
+            this.Dvds = new HashSet<Dvd>();
+        }
     
-        public virtual Director Director { get; set; }
-        public virtual Rating Rating { get; set; }
-        public virtual ReleaseYear ReleaseYear { get; set; }
+        public int DirectorId { get; set; }
+        public string DirectorName { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Dvd> Dvds { get; set; }
     }
 }

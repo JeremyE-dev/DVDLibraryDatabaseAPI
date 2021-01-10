@@ -66,7 +66,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Controllers
             Dvd dvd = new Dvd()
             {
                 Title = request.Title,
-                ReleaseYear = request.ReleaseYear,
+                ReleaseYearName = request.ReleaseYear,
                 DirectorName = request.DirectorName,
                 RatingName = request.RatingName,
                 Notes = request.Notes
@@ -98,7 +98,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Controllers
             dvd.Title = request.Title;
             dvd.RatingName = request.RatingName;
             dvd.DirectorName = request.DirectorName;
-            dvd.ReleaseYear = request.ReleaseYear;
+            dvd.ReleaseYearName = request.ReleaseYear;
             dvd.Notes = request.Notes;
 
             RepositoryFactory.Create().Edit(dvd);

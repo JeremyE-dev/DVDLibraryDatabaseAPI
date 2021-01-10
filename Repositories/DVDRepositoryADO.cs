@@ -36,7 +36,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
                 //--IF DATA RETURNED BY SEARCH METHOD IS NULL
                 //----ADD THE RELEASEYEAR(OF THE DVD PASSED IN) AND RELEASEYEARID TO THE TABLE
               
-                releaseYearId = GetIdByTableContentInteger(dvd.ReleaseYear, "GetReleaseYearId", "@ReleaseYear", 
+                releaseYearId = GetIdByTableContentInteger(dvd.ReleaseYearName, "GetReleaseYearId", "@ReleaseYear", 
                     "ReleaseYear", "ReleaseYearId");
 
                 //IF RELEASEYEAR IS NOT NULL, THEN IT IS IN THE TABLE AND CAN ADD RELEASEYEARID TO DVD
@@ -50,7 +50,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
                     //ADD THE RELEASE YEAR AND ID TO TABLE
                     //AddReleaseYearAndIdToTable((int)releaseYearId, (int)dvd.ReleaseYear);
                     //USING GENERALIZED VERSION
-                    AddDataAndIdToTable((int)releaseYearId, (int)dvd.ReleaseYear, "InsertReleaseYearIdAndYear", 
+                    AddDataAndIdToTable((int)releaseYearId, (int)dvd.ReleaseYearName, "InsertReleaseYearIdAndYear", 
                         "@ReleaseYearId", "@ReleaseYear");
                 }
             }
@@ -168,15 +168,15 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
             int? ratingId = null;
 
          
-            if (dvd.ReleaseYear != null)
+            if (dvd.ReleaseYearName != null)
             {
-                releaseYearId = GetIdByTableContentInteger(dvd.ReleaseYear, "GetReleaseYearId", "@ReleaseYear",
+                releaseYearId = GetIdByTableContentInteger(dvd.ReleaseYearName, "GetReleaseYearId", "@ReleaseYear",
                     "ReleaseYear", "ReleaseYearId");
 
                 if (releaseYearId == null)
                 {
                     releaseYearId = GetNumberOfRecordsInTable("NumberOfRecordsInReleaseYear") + 1;
-                    AddDataAndIdToTable((int)releaseYearId, (int)dvd.ReleaseYear, "InsertReleaseYearIdAndYear",
+                    AddDataAndIdToTable((int)releaseYearId, (int)dvd.ReleaseYearName, "InsertReleaseYearIdAndYear",
                         "@ReleaseYearId", "@ReleaseYear");
                 }
             }
@@ -256,7 +256,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
 
                         //check for null values before casting from ReleaseYear since it is a nullable int
                         if (dr["ReleaseYear"] != DBNull.Value)
-                            currentRow.ReleaseYear = (int)dr["ReleaseYear"];
+                            currentRow.ReleaseYearName = (int?)dr["ReleaseYear"];
 
                         currentRow.DirectorName = dr["DirectorName"].ToString();
                         currentRow.RatingName = dr["RatingName"].ToString();
@@ -302,7 +302,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
 
                         //check for null values before casting from ReleaseYear since it is a nullable int
                         if (dr["ReleaseYear"] != DBNull.Value)
-                            currentRow.ReleaseYear = (int)dr["ReleaseYear"];
+                            currentRow.ReleaseYearName = (int)dr["ReleaseYear"];
 
                         currentRow.DirectorName = dr["DirectorName"].ToString();
                         currentRow.RatingName = dr["RatingName"].ToString();
@@ -345,7 +345,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
 
                         //check for null values before casting from ReleaseYear since it is a nullable int
                         if (dr["ReleaseYear"] != DBNull.Value)
-                            dvd.ReleaseYear = (int)dr["ReleaseYear"];
+                            dvd.ReleaseYearName = (int)dr["ReleaseYear"];
 
                         dvd.DirectorName = dr["DirectorName"].ToString();
                         dvd.RatingName = dr["RatingName"].ToString();
@@ -389,7 +389,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
 
                         //check for null values before casting from ReleaseYear since it is a nullable int
                         if (dr["ReleaseYear"] != DBNull.Value)
-                            currentRow.ReleaseYear = (int)dr["ReleaseYear"];
+                            currentRow.ReleaseYearName = (int)dr["ReleaseYear"];
 
                         currentRow.DirectorName = dr["DirectorName"].ToString();
                         currentRow.RatingName = dr["RatingName"].ToString();
@@ -433,7 +433,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
 
                         //check for null values before casting from ReleaseYear since it is a nullable int
                         if (dr["ReleaseYear"] != DBNull.Value)
-                            currentRow.ReleaseYear = (int)dr["ReleaseYear"];
+                            currentRow.ReleaseYearName = (int)dr["ReleaseYear"];
 
                         currentRow.DirectorName = dr["DirectorName"].ToString();
                         currentRow.RatingName = dr["RatingName"].ToString();
@@ -473,7 +473,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
 
                         //check for null values before casting from ReleaseYear since it is a nullable int
                         if (dr["ReleaseYear"] != DBNull.Value)
-                            dvd.ReleaseYear = (int)dr["ReleaseYear"];
+                            dvd.ReleaseYearName = (int)dr["ReleaseYear"];
 
                         dvd.DirectorName = dr["DirectorName"].ToString();
                         dvd.RatingName = dr["RatingName"].ToString();

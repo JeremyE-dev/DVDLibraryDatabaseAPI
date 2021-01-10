@@ -52,6 +52,8 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.AspNet.Cors.5.2.7\lib\net45\System.Web.Cors.dll</HintPath>
     </Reference>
@@ -94,6 +96,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="Models\DvdLibraryEntities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DvdLibraryEntities.edmx</DependentUpon>
+      <LastGenOutput>DvdLibraryEntities.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\DvdLibraryEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DvdLibraryEntities.edmx</DependentUpon>
+      <LastGenOutput>DvdLibraryEntities.cs</LastGenOutput>
+    </Content>
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -103,8 +115,36 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AddDvdRequest.cs" />
-    <Compile Include="Models\Dvd.cs" />
+    <Compile Include="Models\Director.cs">
+      <DependentUpon>DvdLibraryEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Dvd.cs">
+      <DependentUpon>DvdLibraryEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Dvd1.cs" />
+    <Compile Include="Models\DvdLibraryEntities.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DvdLibraryEntities.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DvdLibraryEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DvdLibraryEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DvdLibraryEntities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DvdLibraryEntities.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\IDvdRepository.cs" />
+    <Compile Include="Models\Rating.cs">
+      <DependentUpon>DvdLibraryEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ReleaseYear.cs">
+      <DependentUpon>DvdLibraryEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ReleaseYear1.cs" />
     <Compile Include="Models\RepositoryFactory.cs" />
     <Compile Include="Models\UpdateDvdRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -113,6 +153,13 @@
     <Compile Include="Repositories\DvdRepositoryMock.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EntityDeploy Include="Models\DvdLibraryEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>DvdLibraryEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\DvdLibraryEntities.edmx.diagram">
+      <DependentUpon>DvdLibraryEntities.edmx</DependentUpon>
+    </Content>
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -123,6 +170,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

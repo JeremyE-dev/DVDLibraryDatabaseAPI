@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="618c34fd58c940a4bc33663a4799e20a" Name="Diagram1">
+        <EntityTypeShape EntityType="DvdLibraryModel.Director" Width="1.5" PointX="0.625" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DvdLibraryModel.Dvd" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="DvdLibraryModel.Rating" Width="1.5" PointX="0.75" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DvdLibraryModel.ReleaseYear" Width="1.5" PointX="0.75" PointY="7" IsExpanded="true" />
+        <AssociationConnector Association="DvdLibraryModel.FK__Dvd__DirectorId__3E52440B" ManuallyRouted="false" />
+        <AssociationConnector Association="DvdLibraryModel.FK__Dvd__RatingId__3F466844" ManuallyRouted="false" />
+        <AssociationConnector Association="DvdLibraryModel.FK__Dvd__ReleaseYear__3D5E1FD2" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
