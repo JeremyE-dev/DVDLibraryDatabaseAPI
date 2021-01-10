@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DvdLibraryModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Director">
+    <Key>
+      <PropertyRef Name="DirectorId" />
+    </Key>
+    <Property Name="DirectorId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DirectorName" Type="varchar" MaxLength="250" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Dvd">
+    <Key>
+      <PropertyRef Name="DvdId" />
+    </Key>
+    <Property Name="DvdId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ReleaseYearId" Type="int" />
+    <Property Name="DirectorId" Type="int" />
+    <Property Name="RatingId" Type="int" />
+    <Property Name="Title" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Notes" Type="varchar" MaxLength="300" />
+  </EntityType>
+  <EntityType Name="Rating">
+    <Key>
+      <PropertyRef Name="RatingId" />
+    </Key>
+    <Property Name="RatingId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RatingName" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ReleaseYear">
+    <Key>
+      <PropertyRef Name="ReleaseYearId" />
+    </Key>
+    <Property Name="ReleaseYearId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ReleaseYear" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__Dvd__DirectorId__3E52440B">
+    <End Role="Director" Type="Self.Director" Multiplicity="0..1" />
+    <End Role="Dvd" Type="Self.Dvd" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Director">
+        <PropertyRef Name="DirectorId" />
+      </Principal>
+      <Dependent Role="Dvd">
+        <PropertyRef Name="DirectorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Dvd__RatingId__3F466844">
+    <End Role="Rating" Type="Self.Rating" Multiplicity="0..1" />
+    <End Role="Dvd" Type="Self.Dvd" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Rating">
+        <PropertyRef Name="RatingId" />
+      </Principal>
+      <Dependent Role="Dvd">
+        <PropertyRef Name="RatingId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Dvd__ReleaseYear__3D5E1FD2">
+    <End Role="ReleaseYear" Type="Self.ReleaseYear" Multiplicity="0..1" />
+    <End Role="Dvd" Type="Self.Dvd" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ReleaseYear">
+        <PropertyRef Name="ReleaseYearId" />
+      </Principal>
+      <Dependent Role="Dvd">
+        <PropertyRef Name="ReleaseYearId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DvdLibraryModelStoreContainer">
+    <EntitySet Name="Director" EntityType="Self.Director" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Dvd" EntityType="Self.Dvd" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Rating" EntityType="Self.Rating" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ReleaseYear" EntityType="Self.ReleaseYear" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Dvd__DirectorId__3E52440B" Association="Self.FK__Dvd__DirectorId__3E52440B">
+      <End Role="Director" EntitySet="Director" />
+      <End Role="Dvd" EntitySet="Dvd" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Dvd__RatingId__3F466844" Association="Self.FK__Dvd__RatingId__3F466844">
+      <End Role="Rating" EntitySet="Rating" />
+      <End Role="Dvd" EntitySet="Dvd" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Dvd__ReleaseYear__3D5E1FD2" Association="Self.FK__Dvd__ReleaseYear__3D5E1FD2">
+      <End Role="ReleaseYear" EntitySet="ReleaseYear" />
+      <End Role="Dvd" EntitySet="Dvd" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

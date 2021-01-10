@@ -30,7 +30,13 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
 
         public List<Dvd> GetAll()
         {
-            throw new NotImplementedException();
+            var repository = new DvdLibraryEntities();
+            List<Dvd> allDvds = (from d in repository.Dvds
+                          select d).ToList();
+
+            return allDvds;
+        
+
         }
 
         public List<Dvd> GetByDirectorName(string director)

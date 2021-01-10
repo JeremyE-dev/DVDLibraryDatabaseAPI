@@ -138,3 +138,7 @@ C:\Users\Jeremy\source\repos\DVDLibraryDatabaseAPI\obj\Debug\DVDLibraryDatabaseW
 C:\Users\Jeremy\source\repos\DVDLibraryDatabaseAPI\obj\Debug\DVDLibraryDatabaseWebAPIv2.csproj.CopyComplete
 C:\Users\Jeremy\source\repos\DVDLibraryDatabaseAPI\obj\Debug\DVDLibraryDatabaseWebAPIv2.dll
 C:\Users\Jeremy\source\repos\DVDLibraryDatabaseAPI\obj\Debug\DVDLibraryDatabaseWebAPIv2.pdb
+C:\Users\Jeremy\source\repos\DVDLibraryDatabaseAPI\bin\EntityFramework.dll
+C:\Users\Jeremy\source\repos\DVDLibraryDatabaseAPI\bin\EntityFramework.SqlServer.dll
+C:\Users\Jeremy\source\repos\DVDLibraryDatabaseAPI\bin\EntityFramework.xml
+C:\Users\Jeremy\source\repos\DVDLibraryDatabaseAPI\bin\EntityFramework.SqlServer.xml

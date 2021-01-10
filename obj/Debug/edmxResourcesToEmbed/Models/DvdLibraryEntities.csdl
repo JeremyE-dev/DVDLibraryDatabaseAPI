@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DvdLibraryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Director">
+    <Key>
+      <PropertyRef Name="DirectorId" />
+    </Key>
+    <Property Name="DirectorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DirectorName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Dvds" Relationship="Self.FK__Dvd__DirectorId__3E52440B" FromRole="Director" ToRole="Dvd" />
+  </EntityType>
+  <EntityType Name="Dvd">
+    <Key>
+      <PropertyRef Name="DvdId" />
+    </Key>
+    <Property Name="DvdId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ReleaseYearId" Type="Int32" />
+    <Property Name="DirectorId" Type="Int32" />
+    <Property Name="RatingId" Type="Int32" />
+    <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Notes" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Director" Relationship="Self.FK__Dvd__DirectorId__3E52440B" FromRole="Dvd" ToRole="Director" />
+    <NavigationProperty Name="Rating" Relationship="Self.FK__Dvd__RatingId__3F466844" FromRole="Dvd" ToRole="Rating" />
+    <NavigationProperty Name="ReleaseYear" Relationship="Self.FK__Dvd__ReleaseYear__3D5E1FD2" FromRole="Dvd" ToRole="ReleaseYear" />
+  </EntityType>
+  <EntityType Name="Rating">
+    <Key>
+      <PropertyRef Name="RatingId" />
+    </Key>
+    <Property Name="RatingId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RatingName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Dvds" Relationship="Self.FK__Dvd__RatingId__3F466844" FromRole="Rating" ToRole="Dvd" />
+  </EntityType>
+  <EntityType Name="ReleaseYear">
+    <Key>
+      <PropertyRef Name="ReleaseYearId" />
+    </Key>
+    <Property Name="ReleaseYearId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ReleaseYear1" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Dvds" Relationship="Self.FK__Dvd__ReleaseYear__3D5E1FD2" FromRole="ReleaseYear" ToRole="Dvd" />
+  </EntityType>
+  <Association Name="FK__Dvd__DirectorId__3E52440B">
+    <End Role="Director" Type="Self.Director" Multiplicity="0..1" />
+    <End Role="Dvd" Type="Self.Dvd" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Director">
+        <PropertyRef Name="DirectorId" />
+      </Principal>
+      <Dependent Role="Dvd">
+        <PropertyRef Name="DirectorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Dvd__RatingId__3F466844">
+    <End Role="Rating" Type="Self.Rating" Multiplicity="0..1" />
+    <End Role="Dvd" Type="Self.Dvd" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Rating">
+        <PropertyRef Name="RatingId" />
+      </Principal>
+      <Dependent Role="Dvd">
+        <PropertyRef Name="RatingId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Dvd__ReleaseYear__3D5E1FD2">
+    <End Role="ReleaseYear" Type="Self.ReleaseYear" Multiplicity="0..1" />
+    <End Role="Dvd" Type="Self.Dvd" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ReleaseYear">
+        <PropertyRef Name="ReleaseYearId" />
+      </Principal>
+      <Dependent Role="Dvd">
+        <PropertyRef Name="ReleaseYearId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DvdLibraryEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Directors" EntityType="Self.Director" />
+    <EntitySet Name="Dvds" EntityType="Self.Dvd" />
+    <EntitySet Name="Ratings" EntityType="Self.Rating" />
+    <EntitySet Name="ReleaseYears" EntityType="Self.ReleaseYear" />
+    <AssociationSet Name="FK__Dvd__DirectorId__3E52440B" Association="Self.FK__Dvd__DirectorId__3E52440B">
+      <End Role="Director" EntitySet="Directors" />
+      <End Role="Dvd" EntitySet="Dvds" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Dvd__RatingId__3F466844" Association="Self.FK__Dvd__RatingId__3F466844">
+      <End Role="Rating" EntitySet="Ratings" />
+      <End Role="Dvd" EntitySet="Dvds" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Dvd__ReleaseYear__3D5E1FD2" Association="Self.FK__Dvd__ReleaseYear__3D5E1FD2">
+      <End Role="ReleaseYear" EntitySet="ReleaseYears" />
+      <End Role="Dvd" EntitySet="Dvds" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
