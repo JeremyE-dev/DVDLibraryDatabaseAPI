@@ -18,6 +18,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Models
         public DvdLibraryEntities()
             : base("name=DvdLibraryEntities")
         {
+            this.Configuration.ProxyCreationEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
