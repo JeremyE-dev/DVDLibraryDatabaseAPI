@@ -43,7 +43,8 @@ namespace DVDLibraryDatabaseWebAPIv2.Controllers
 
         [Route("dvds/add")]
         [AcceptVerbs("POST")]
-        public IHttpActionResult Add(AddDvdRequest request)
+        //changed parameter type to Dvd, was originally AddDVdRequest
+        public IHttpActionResult Add(Dvd request)
         {
             //the model state in this case is just checking if the client includes at least the Titile and Rating,
             //by including the [Required] attribute over those two fields
@@ -66,9 +67,9 @@ namespace DVDLibraryDatabaseWebAPIv2.Controllers
             Dvd dvd = new Dvd()
             {
                 Title = request.Title,
-                ReleaseYearName = request.ReleaseYear,
-                DirectorName = request.DirectorName,
-                RatingName = request.RatingName,
+                releaseYear = request.releaseYear,
+                director = request.director,
+                rating = request.rating,
                 Notes = request.Notes
 
             };
@@ -81,7 +82,10 @@ namespace DVDLibraryDatabaseWebAPIv2.Controllers
 
         [Route ("dvds/update/{dvdId}")]
         [AcceptVerbs("PUT")]
-        public IHttpActionResult Update(UpdateDvdRequest request)
+
+        //changed from UpdateDvdRequets to Dvd
+        // was UpdateDvdRequest
+        public IHttpActionResult Update(Dvd request)
         {
             if (!ModelState.IsValid)
             {
@@ -96,9 +100,9 @@ namespace DVDLibraryDatabaseWebAPIv2.Controllers
             
             dvd.DvdId = request.DvdId;
             dvd.Title = request.Title;
-            dvd.RatingName = request.RatingName;
-            dvd.DirectorName = request.DirectorName;
-            dvd.ReleaseYearName = request.ReleaseYear;
+            dvd.rating = request.rating;
+            dvd.director = request.director;
+            dvd.releaseYear = request.releaseYear;
             dvd.Notes = request.Notes;
 
             RepositoryFactory.Create().Edit(dvd);

@@ -29,11 +29,11 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
         // and any changes to data will remain in memory as long as WEp API project is running
         private static List<Dvd> _dvds = new List<Dvd>
         {
-            new Dvd {DvdId = 0, Title = "A Great Tale", ReleaseYearName = 2015, DirectorName = "Sam Jones",
-                RatingName = "PG", Notes = "This is a really great tale"},
+            new Dvd {DvdId = 0, Title = "A Great Tale", releaseYear = 2015, director = "Sam Jones",
+                rating = "PG", Notes = "This is a really great tale"},
 
-            new Dvd {DvdId = 1, Title = "A Good Tale", ReleaseYearName = 2012, DirectorName = "Joe Smith",
-                RatingName = "PG-13", Notes = "This is a good tale"}
+            new Dvd {DvdId = 1, Title = "A Good Tale", releaseYear = 2012, director = "Joe Smith",
+                rating = "PG-13", Notes = "This is a good tale"}
 
         };
 
@@ -61,7 +61,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
         {
             List<Dvd> listOfDvdsByReleaseYear = new List<Dvd>();
             var dvdsByReleaseYear = from d in _dvds
-                                 where d.ReleaseYearName == releaseYear
+                                 where d.releaseYear == releaseYear
                                  select d;
 
             foreach (Dvd x in dvdsByReleaseYear)
@@ -83,7 +83,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
         {
             List<Dvd> listOfDvdsByDirector = new List<Dvd>();
             var dvdsByDirector = from d in _dvds
-                                 where d.DirectorName == director
+                                 where d.director == director
                                  select d;
             
             foreach(Dvd x in dvdsByDirector)
@@ -98,7 +98,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
         {
             List<Dvd> listOfDvdsByRating = new List<Dvd>();
             var dvdsByRating = from d in _dvds
-                                 where d.RatingName == rating
+                                 where d.rating == rating
                                  select d;
 
             foreach (Dvd x in dvdsByRating)

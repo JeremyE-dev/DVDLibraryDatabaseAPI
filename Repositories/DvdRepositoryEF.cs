@@ -18,11 +18,11 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
                                  select a).ToList();
             d.DvdId = dvd.DvdId;
             d.Title = dvd.Title;
-            d.DirectorName = dvd.DirectorName;
+            d.director = dvd.director;
             d.DirectorId = dvd.DirectorId;
-            d.RatingName = dvd.RatingName;
+            d.rating = dvd.rating;
             d.RatingId = dvd.RatingId;
-            d.ReleaseYearName = dvd.ReleaseYearName;
+            d.releaseYear = dvd.releaseYear;
             d.ReleaseYearId = dvd.ReleaseYearId;
             d.Notes = dvd.Notes;
 
@@ -148,11 +148,11 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
                                  //select a).ToList();
             d.DvdId = dvd.DvdId;
             d.Title = dvd.Title;
-            d.DirectorName = dvd.DirectorName;
+            d.director = dvd.director;
             d.DirectorId = dvd.DirectorId;
-            d.RatingName = dvd.RatingName;
+            d.rating = dvd.rating;
             d.RatingId = dvd.RatingId;
-            d.ReleaseYearName = dvd.ReleaseYearName;
+            d.releaseYear = dvd.releaseYear;
             d.ReleaseYearId = dvd.ReleaseYearId;
             d.Notes = dvd.Notes;
 
@@ -183,7 +183,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
         {
             var repository = new DvdLibraryEntities();
             List<Dvd> allDvds = (from d in repository.Dvds
-                                 where d.DirectorName == director
+                                 where d.director == director
                                  select d).ToList();
 
             return allDvds;
@@ -205,7 +205,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
         {
             var repository = new DvdLibraryEntities();
             List<Dvd> allDvds = (from d in repository.Dvds
-                                 where d.RatingName == rating
+                                 where d.rating == rating
                                  select d).ToList();
 
             return allDvds;
@@ -215,7 +215,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
         {
             var repository = new DvdLibraryEntities();
             List<Dvd> allDvds = (from d in repository.Dvds
-                                 where d.ReleaseYearName == releaseYear
+                                 where d.releaseYear == releaseYear
                                  select d).ToList();
 
             return allDvds;

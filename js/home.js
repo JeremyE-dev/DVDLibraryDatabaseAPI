@@ -90,15 +90,16 @@ var haveValidationErrors = checkAndDisplayValidationErrors_Search(($('#search-te
 function showDvdDetails(dvdID) {
   $.ajax({
     type: 'GET',
-    url: 'http://localhost:8080/dvd/' + dvdID,
+    url: 'http://localhost:52639/dvds/get/' + dvdID,
     success: function(data, status) {
       //how do I add title to be the top of the page
       //$('#display-dvd-title').text(data.title);
-      var title = data.title;
-      $('#display-release-year-rating').val(data.realeaseYear);
+      var title = data.Title;
+      $('#display-dvd-title').text(title);
+      $('#display-release-year-rating').val(data.releaseYear);
       $('#display-director-details').val(data.director);
       $('#display-rating-details').val(data.rating);
-      $('#display-notes-details').val(data.notes);
+      $('#display-notes-details').val(data.Notes);
         //did not get the id,it is not used in form
         $('#DVDdisplaytableDiv').hide();
         $('#navbarDiv').hide();
@@ -124,15 +125,15 @@ clearDVDDisplay();
   var DVDdisplaytable = $('#DVDdisplaycontentRows');
   $.ajax ({
     type: 'GET',
-    url: 'http://localhost:8080/dvds',
+    url: 'http://localhost:52639/dvds/all',
     success: function(data, status) {
       $.each(data, function(index, dvd){
-        var title = dvd.title;
-        var releaseYear = dvd.realeaseYear;
+        var title = dvd.Title;
+        var releaseYear = dvd.releaseYear;
         var director = dvd.director;
         var rating = dvd.rating;
-        var notes = dvd.notes;
-        var dvdID = dvd.dvdId;
+        var notes = dvd.Notes;
+        var dvdID = dvd.DvdId;
 
         var row = '<tr>';
             //row += '<td>' + title + '</td>';
@@ -162,13 +163,13 @@ clearDVDDisplay();
 function postDVDInfo() {
   $.ajax({
     type: 'POST',
-    url: 'http://localhost:8080/dvd',
+    url: 'http://localhost:52639/dvds/add',
     data: JSON.stringify({
-      title: $('#add-title').val(),
-      realeaseYear: $('#add-release-year').val(),
+      Title: $('#add-title').val(),
+      releaseYear: $('#add-release-year').val(),
       director: $('#add-director').val(),
       rating: $('#add-rating').val(),
-      notes: $('#add-notes').val()
+      Notes: $('#add-notes').val()
     }),
     headers: {
       'Accept': 'application/json',
@@ -205,14 +206,14 @@ function getDVDToEdit(dvdID) { //connected to 'Edit' on table
 //add check for validation error code here
   $.ajax({
     type: 'GET',
-    url: 'http://localhost:8080/dvd/' + dvdID,
+    url: 'http://localhost:52639/dvds/get/' + dvdID,
     success: function(data, status) {
-      var headerTitle = data.title;
-      $('#edit-title').val(data.title);
-      $('#edit-release-year').val(data.realeaseYear);
+      var headerTitle = data.Title;
+      $('#edit-title').val(data.Title);
+      $('#edit-release-year').val(data.releaseYear);
       $('#edit-director').val(data.director);
       $('#edit-rating').val(data.rating);
-      $('#edit-notes').val(data.notes);
+      $('#edit-notes').val(data.Notes);
       $('h2').text('Edit Dvd: ' +  headerTitle);
         //did not get the id,it is not used in form
         $('#DVDdisplaytableDiv').hide();
@@ -240,13 +241,14 @@ $('#save-changes-button').on('click', function() {
   //putEditedDVDInfo(dvdID);
   $.ajax({
     type: 'PUT',
-    url: 'http://localhost:8080/dvd/' + dvdID,
+    url: 'http://localhost:52639/dvds/update/' + dvdID,
     data: JSON.stringify({
-      title: $('#edit-title').val(),
-      realeaseYear: $('#edit-release-year').val(),
+      DvdId: dvdID,
+      Title: $('#edit-title').val(),
+      releaseYear: $('#edit-release-year').val(),
       director: $('#edit-director').val(),
       rating:$('#edit-rating').val(),
-      notes:$('#edit-notes').val()
+      Notes:$('#edit-notes').val()
     }),
     headers: {
       'Accept' : 'application/json',
@@ -281,7 +283,7 @@ function deleteDVD(dvdId) {
   if(confirm == true) {
     $.ajax({
       type: 'DELETE',
-      url:'http://localhost:8080/dvd/' + dvdId,
+      url:'http://localhost:52639/dvd/delete/' + dvdId,
       success: function(status) {
         //alert('DVD deleted');
         getDVDInfo();
@@ -318,7 +320,7 @@ function getDVDByTitle(title) {
     alert('mades it inside method - title is' + title);
     $.ajax ({
       type: 'GET',
-      url: 'http://localhost:8080/dvds/title/' + title,
+      url: 'http://localhost:52639/dvds/title/' + title,
       success: function(data, status) {
         $.each(data, function(index, dvd){
           var title = dvd.title;
@@ -360,7 +362,7 @@ function getDVDByYear(year) {
   alert('mades it inside method - year is: ' + year);
   $.ajax ({
     type: 'GET',
-    url: 'http://localhost:8080/dvds/year/' + year,
+    url: 'http://localhost:52639/dvds/year/' + year,
     success: function(data, status) {
       $.each(data, function(index, dvd){
         var title = dvd.title;
@@ -400,7 +402,7 @@ function getDVDByDirector(director) {
   alert('mades it inside method - director is: ' + director);
   $.ajax ({
     type: 'GET',
-    url: 'http://localhost:8080/dvds/director/' + director,
+    url: 'http://localhost:52639/dvds/director/' + director,
     success: function(data, status) {
       $.each(data, function(index, dvd){
         var title = dvd.title;
@@ -439,7 +441,7 @@ function getDVDByRating(rating) {
   alert('mades it inside method - director is: ' + rating);
   $.ajax ({
     type: 'GET',
-    url: 'http://localhost:8080/dvds/rating/' + rating,
+    url: 'http://localhost:52639/dvds/rating/' + rating,
     success: function(data, status) {
       $.each(data, function(index, dvd){
         var title = dvd.title;
