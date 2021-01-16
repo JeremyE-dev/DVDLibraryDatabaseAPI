@@ -459,9 +459,11 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
             return dvds;
         }
 
-        public Dvd GetByTitle(string title)
+        public List<Dvd> GetByTitle(string title)
         {
-            Dvd dvd = new Dvd();
+            //throw new NotImplementedException();
+            //this is the LIST of DVds
+            List<Dvd> dvds = new List<Dvd>();
 
             using (SqlConnection conn = new SqlConnection())
             {
@@ -480,23 +482,26 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
                     while (dr.Read())
                     { //inside while loop dealing with single row of data
 
-                        dvd.DvdId = (int)dr["DvdId"];
-                        dvd.Title = dr["Title"].ToString();
+                        // This is a SINGLE dvd that will be added to the list
+                        Dvd currentRow = new Dvd();
+                        currentRow.DvdId = (int)dr["DvdId"];
+                        currentRow.Title = dr["Title"].ToString();
 
                         //check for null values before casting from ReleaseYear since it is a nullable int
                         if (dr["ReleaseYear"] != DBNull.Value)
-                            dvd.releaseYear = (int)dr["ReleaseYear"];
+                            currentRow.releaseYear = (int)dr["ReleaseYear"];
 
-                        dvd.director = dr["DirectorName"].ToString();
-                        dvd.rating = dr["RatingName"].ToString();
-                        dvd.Notes = dr["Notes"].ToString();
+                        currentRow.director = dr["DirectorName"].ToString();
+                        currentRow.rating = dr["RatingName"].ToString();
+                        currentRow.Notes = dr["Notes"].ToString();
 
-
+                        dvds.Add(currentRow);
                     }
                 }
             }
 
-            return dvd;
+            return dvds;
+
         }
 
 

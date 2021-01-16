@@ -132,8 +132,9 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
             _dvds.RemoveAll(d => d.DvdId == dvdID);
         }
 
-
-
-
+        List<Dvd> IDvdRepository.GetByTitle(string title)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

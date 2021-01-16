@@ -44,13 +44,15 @@ $('#cancel-add-button').on('click', function() {
 
 $('#search-button').on('click', function() {
 
-alert($('#search-term').find().val());
-var haveValidationErrors = checkAndDisplayValidationErrors_Search(($('#search-term').find('input')));
+//alert($('#search-term').find().val());
+//var haveValidationErrors = checkAndDisplayValidationErrors_Search(($('#search-term').find('input')));
 
-  if(haveValidationErrors) {
-      alert('there was an error');
-    return false;
-  }
+  //if(haveValidationErrors) {
+      //alert('there was an error');
+  //  return false;
+  //}
+
+
 
 
   var searchDropdownValue = $('#search-category-dropdown').val();
@@ -283,7 +285,7 @@ function deleteDVD(dvdId) {
   if(confirm == true) {
     $.ajax({
       type: 'DELETE',
-      url:'http://localhost:52639/dvd/delete/' + dvdId,
+      url:'http://localhost:52639/dvds/delete/' + dvdId,
       success: function(status) {
         //alert('DVD deleted');
         getDVDInfo();
@@ -320,14 +322,15 @@ function getDVDByTitle(title) {
     alert('mades it inside method - title is' + title);
     $.ajax ({
       type: 'GET',
-      url: 'http://localhost:52639/dvds/title/' + title,
+      url: 'http://localhost:52639/dvds/get/title/' + title,
+      //old url: 'http://localhost:52639/dvds/title/' + title,
       success: function(data, status) {
         $.each(data, function(index, dvd){
-          var title = dvd.title;
-          var releaseYear = dvd.realeaseYear;
+          var title = dvd.Title;
+          var releaseYear = dvd.releaseYear;
           var director = dvd.director;
           var rating = dvd.rating;
-          var notes = dvd.notes;
+          var notes = dvd.Notes;
           var dvdID = dvd.dvdId;
 
           var row = '<tr>';
@@ -362,14 +365,14 @@ function getDVDByYear(year) {
   alert('mades it inside method - year is: ' + year);
   $.ajax ({
     type: 'GET',
-    url: 'http://localhost:52639/dvds/year/' + year,
+    url: 'http://localhost:52639/dvds/get/year/' + year,
     success: function(data, status) {
       $.each(data, function(index, dvd){
-        var title = dvd.title;
-        var releaseYear = dvd.realeaseYear;
+        var title = dvd.Title;
+        var releaseYear = dvd.releaseYear;
         var director = dvd.director;
         var rating = dvd.rating;
-        var notes = dvd.notes;
+        var notes = dvd.Notes;
         var dvdID = dvd.dvdId;
 
         var row = '<tr>';
@@ -402,14 +405,15 @@ function getDVDByDirector(director) {
   alert('mades it inside method - director is: ' + director);
   $.ajax ({
     type: 'GET',
-    url: 'http://localhost:52639/dvds/director/' + director,
+    url: 'http://localhost:52639/dvds/get/director/' + director,
+    //OLD URL url: 'http://localhost:52639/dvds/director/' + director,
     success: function(data, status) {
       $.each(data, function(index, dvd){
-        var title = dvd.title;
-        var releaseYear = dvd.realeaseYear;
+        var title = dvd.Title;
+        var releaseYear = dvd.releaseYear;
         var director = dvd.director;
         var rating = dvd.rating;
-        var notes = dvd.notes;
+        var notes = dvd.Notes;
         var dvdID = dvd.dvdId;
 
         var row = '<tr>';
@@ -444,11 +448,11 @@ function getDVDByRating(rating) {
     url: 'http://localhost:52639/dvds/rating/' + rating,
     success: function(data, status) {
       $.each(data, function(index, dvd){
-        var title = dvd.title;
-        var releaseYear = dvd.realeaseYear;
+        var title = dvd.Title;
+        var releaseYear = dvd.releaseYear;
         var director = dvd.director;
         var rating = dvd.rating;
-        var notes = dvd.notes;
+        var notes = dvd.Notes;
         var dvdID = dvd.dvdId;
 
         var row = '<tr>';
@@ -612,9 +616,13 @@ function checkAndDisplayValidationErrors_Search(input) {
         //errorMessages.push(errorField + ' '+ "Please Enter a 4-digit year");
       //}
 
-      //else if(errorField == 'Director:') {
-      //  errorMessages.push(errorField + ' '+ "Please Enter a Director for the DVD");
-    //  }
+      //if(errorField == "") {
+      //errorMessages.push(errorField + ' '+ "Please Enter a Director for the DVD");
+    //}
+
+    //  if(errorField == 'Director:') {
+      //errorMessages.push(errorField + ' '+ "Please Enter a Director for the DVD");
+    //}
     }
 
   //});

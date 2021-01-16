@@ -14,7 +14,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Models
         //returns one movie based on ID number
         Dvd GetById(int dvdId);
         List<Dvd> GetByReleaseYear(int releaseYear);
-        Dvd GetByTitle(string title);
+        List<Dvd> GetByTitle(string title);
 
         List<Dvd> GetByDirectorName(string director);
         List<Dvd> GetByRating(string rating);

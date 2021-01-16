@@ -229,5 +229,10 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
 
             return allDvds.FirstOrDefault(d => d.Title == title);
         }
+
+        List<Dvd> IDvdRepository.GetByTitle(string title)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

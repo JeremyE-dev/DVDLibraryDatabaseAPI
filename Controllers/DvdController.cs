@@ -41,6 +41,66 @@ namespace DVDLibraryDatabaseWebAPIv2.Controllers
             }
         }
 
+        //add controller methods
+        //getbyDirector
+
+        [Route("dvds/get/director/{director}")]
+        [AcceptVerbs("GET")]
+        public IHttpActionResult GetByDirector(string director)
+        {
+            List<Dvd> dvds = RepositoryFactory.Create().GetByDirectorName(director);
+
+            if (dvds == null || dvds.Count() == 0)
+            {
+                return NotFound();
+            }
+
+            else
+            {
+                return Ok(dvds);
+            }
+        }
+
+        //getby release year
+        [Route("dvds/get/year/{year}")]
+        [AcceptVerbs("GET")]
+        public IHttpActionResult GetByYear(int year)
+        {
+            List<Dvd> dvds = RepositoryFactory.Create().GetByReleaseYear(year);
+
+            if (dvds == null || dvds.Count() == 0)
+            {
+                return NotFound();
+            }
+
+            else
+            {
+                return Ok(dvds);
+            }
+        }
+
+        //get by title
+        [Route("dvds/get/title/{title}")]
+        [AcceptVerbs("GET")]
+        public IHttpActionResult GetByTitle(string title)
+        {
+            List<Dvd> dvds = RepositoryFactory.Create().GetByTitle(title);
+
+            if (dvds == null)
+            {
+                return NotFound();
+            }
+
+            else
+            {
+                return Ok(dvds);
+            }
+        }
+
+
+        //Start Here 1/16/21 - put int get by rating code
+
+
         [Route("dvds/add")]
         [AcceptVerbs("POST")]
         //changed parameter type to Dvd, was originally AddDVdRequest
