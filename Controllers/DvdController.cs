@@ -97,8 +97,24 @@ namespace DVDLibraryDatabaseWebAPIv2.Controllers
             }
         }
 
+        [Route("dvds/get/rating/{rating}")]
+        [AcceptVerbs("GET")]
+        public IHttpActionResult GetByRating(string rating)
+        {
+            List<Dvd> dvds = RepositoryFactory.Create().GetByRating(rating);
 
-        //Start Here 1/16/21 - put int get by rating code
+            if (dvds == null || dvds.Count() == 0)
+            {
+                return NotFound();
+            }
+
+            else
+            {
+                return Ok(dvds);
+            }
+        }
+
+
 
 
         [Route("dvds/add")]
@@ -127,7 +143,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Controllers
             Dvd dvd = new Dvd()
             {
                 Title = request.Title,
-                releaseYear = request.releaseYear,
+                ReleaseYear1 = request.ReleaseYear1,
                 director = request.director,
                 rating = request.rating,
                 Notes = request.Notes
@@ -154,15 +170,13 @@ namespace DVDLibraryDatabaseWebAPIv2.Controllers
 
             //put null check in ado code
             Dvd dvd = RepositoryFactory.Create().GetById(request.DvdId);
-
-       
-
-            
+                  
+                        
             dvd.DvdId = request.DvdId;
             dvd.Title = request.Title;
             dvd.rating = request.rating;
             dvd.director = request.director;
-            dvd.releaseYear = request.releaseYear;
+            dvd.ReleaseYear1 = request.ReleaseYear1;
             dvd.Notes = request.Notes;
 
             RepositoryFactory.Create().Edit(dvd);

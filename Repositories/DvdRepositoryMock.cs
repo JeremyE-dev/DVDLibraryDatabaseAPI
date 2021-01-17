@@ -29,10 +29,10 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
         // and any changes to data will remain in memory as long as WEp API project is running
         private static List<Dvd> _dvds = new List<Dvd>
         {
-            new Dvd {DvdId = 0, Title = "A Great Tale", releaseYear = 2015, director = "Sam Jones",
+            new Dvd {DvdId = 0, Title = "A Great Tale", ReleaseYear1 = 2015, director = "Sam Jones",
                 rating = "PG", Notes = "This is a really great tale"},
 
-            new Dvd {DvdId = 1, Title = "A Good Tale", releaseYear = 2012, director = "Joe Smith",
+            new Dvd {DvdId = 1, Title = "A Good Tale", ReleaseYear1 = 2012, director = "Joe Smith",
                 rating = "PG-13", Notes = "This is a good tale"}
 
         };
@@ -61,7 +61,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
         {
             List<Dvd> listOfDvdsByReleaseYear = new List<Dvd>();
             var dvdsByReleaseYear = from d in _dvds
-                                 where d.releaseYear == releaseYear
+                                 where d.ReleaseYear1 == releaseYear
                                  select d;
 
             foreach (Dvd x in dvdsByReleaseYear)

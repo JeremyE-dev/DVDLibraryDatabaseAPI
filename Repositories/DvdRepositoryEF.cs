@@ -22,7 +22,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
             d.DirectorId = dvd.DirectorId;
             d.rating = dvd.rating;
             d.RatingId = dvd.RatingId;
-            d.releaseYear = dvd.releaseYear;
+            d.ReleaseYear1 = dvd.ReleaseYear1;
             d.ReleaseYearId = dvd.ReleaseYearId;
             d.Notes = dvd.Notes;
 
@@ -152,7 +152,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
             d.DirectorId = dvd.DirectorId;
             d.rating = dvd.rating;
             d.RatingId = dvd.RatingId;
-            d.releaseYear = dvd.releaseYear;
+            d.ReleaseYear1 = dvd.ReleaseYear1;
             d.ReleaseYearId = dvd.ReleaseYearId;
             d.Notes = dvd.Notes;
 
@@ -168,11 +168,74 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
 
         public List<Dvd> GetAll()
         {
-            var repository = new DvdLibraryEntities();
-            List<Dvd> allDvds = (from d in repository.Dvds
-                          select d).ToList();
+            List<Dvd> allDvds = new List<Dvd>();
 
-            return allDvds;
+            var repository = new DvdLibraryEntities();
+
+            var d = from r in repository.Dvds select r;
+
+
+            return d.ToList();
+
+
+
+            
+
+
+
+            
+
+           
+
+
+
+
+          
+
+            
+
+            //List<Dvd> allDvds = (from d in repository.Dvds select d).ToList();
+
+            //foreach (Dvd d in allDvds)
+            //{
+            //    int? year = repository.ReleaseYears.
+            //    //d.director = d.Director.DirectorName;
+
+            //}
+
+           
+
+            ////List<Dvd> allDvds = (from d in repository.Dvds
+            ////              select d).ToList();
+
+            ////Title and Notes are already set, need:
+            ////releaseYear
+            ////director
+            ////rating
+            //foreach(Dvd d in allDvds)
+            //{
+            //    //var releaseYear = from r in repository.Dvds
+            //    //                  where r.ReleaseYearId == d.ReleaseYearId
+            //    //                  select r.releaseYear;
+
+            //    //d.releaseYear = releaseYear.First();
+
+
+            //    //var director = from r in repository.Dvds
+            //    //                  where r.DirectorId == d.DirectorId
+            //    //                  select r.director;
+
+            //    //d.director = director.First();
+
+            //    //var rating = from r in repository.Dvds
+            //    //               where r.RatingId == d.RatingId
+            //    //               select r.rating;
+
+            //    //d.rating = director.First();
+
+            //}
+
+            //return allDvds;
 
             
         
@@ -215,7 +278,7 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
         {
             var repository = new DvdLibraryEntities();
             List<Dvd> allDvds = (from d in repository.Dvds
-                                 where d.releaseYear == releaseYear
+                                 where d.ReleaseYear1 == releaseYear
                                  select d).ToList();
 
             return allDvds;
@@ -232,7 +295,15 @@ namespace DVDLibraryDatabaseWebAPIv2.Repositories
 
         List<Dvd> IDvdRepository.GetByTitle(string title)
         {
-            throw new NotImplementedException();
+            var repository = new DvdLibraryEntities();
+            List<Dvd> allDvds = (from d in repository.Dvds
+                                 where d.Title == title
+                                 select d).ToList();
+            
+            var yearName = from r in repository.ReleaseYears select r.ReleaseYear1;
+          
+
+            return allDvds;
         }
     }
 }

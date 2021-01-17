@@ -44,7 +44,7 @@ if exists(select * from INFORMATION_SCHEMA.ROUTINES
 go
 
 create procedure DvdSelectByTitle(
-	@Title varchar
+	@Title varchar (100)
 )
 
 -- should this include join statements to get the ReleaseYear, DirectorName, and rating Name 
@@ -86,7 +86,7 @@ if exists(select * from INFORMATION_SCHEMA.ROUTINES
 go
 
 create procedure DvdSelectByDirectorName(
-	@DirectorName varchar
+	@DirectorName varchar(100)
 )
 
 as 
@@ -106,7 +106,7 @@ if exists(select * from INFORMATION_SCHEMA.ROUTINES
 go
 
 create procedure DvdSelectByRating(
-	@RatingName varchar
+	@RatingName varchar(100)
 )
 
 as 
@@ -141,9 +141,34 @@ as
 go
 
 if exists(select * from INFORMATION_SCHEMA.ROUTINES
+	where ROUTINE_NAME = 'DvdInsertText')
+		drop procedure DvdInsertText
+go
+
+create procedure DvdInsertText (
+	@DvdId int output,
+	@ReleaseYearId int,
+	@DirectorId int,
+	@RatingId int,
+	@Title varchar(50),
+	@Notes varchar(300)
+)
+
+as 
+	insert into Dvd (ReleaseYearId, DirectorId, RatingId, Title, Notes)
+	values(@ReleaseYearId, @DirectorId, @RatingId, @Title, @Notes)
+
+	set @DvdId = SCOPE_IDENTITY()
+go
+
+
+
+
+if exists(select * from INFORMATION_SCHEMA.ROUTINES
 	where ROUTINE_NAME = 'DvdUpdate')
 		drop procedure DvdUpdate
 go
+
 
 create procedure DvdUpdate (
 	@DvdId int output,

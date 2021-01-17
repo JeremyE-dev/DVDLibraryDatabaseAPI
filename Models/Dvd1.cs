@@ -8,13 +8,15 @@ namespace DVDLibraryDatabaseWebAPIv2.Models
     public partial class Dvd
     {
         public int? releaseYear { get; set; }
+
+        public int? ReleaseYear1 { get; set; }
         public string director { get; set; }
 
         public string rating { get; set; }
 
         public string title { get; set; }
         public string notes { get; set; }
-
+       
 
         //public int? ReleaseYearName { get; set; }
         //public string DirectorName { get; set; }
